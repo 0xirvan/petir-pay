@@ -46,11 +46,8 @@ export default function LandingHeader() {
 
                     {/* Desktop CTA Buttons */}
                     <div className="hidden items-center space-x-3 lg:flex">
-                        <Button variant="ghost" className="font-medium text-gray-600 hover:bg-blue-50 hover:text-blue-600">
-                            Masuk
-                        </Button>
                         <Button className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 font-medium text-white shadow-lg transition-all duration-200 hover:from-blue-700 hover:to-blue-800 hover:shadow-xl">
-                            Daftar Sekarang
+                            Mulai Sekarang
                         </Button>
                     </div>
 
@@ -100,11 +97,8 @@ export default function LandingHeader() {
                                 Kontak
                             </a>
                             <div className="flex flex-col space-y-3 border-t border-gray-100 pt-4">
-                                <Button variant="outline" className="w-full justify-center border-gray-200 bg-transparent hover:bg-gray-50">
-                                    Masuk
-                                </Button>
                                 <Button className="w-full justify-center bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg hover:from-blue-700 hover:to-blue-800">
-                                    Daftar Sekarang
+                                    Mulai Sekarang
                                 </Button>
                             </div>
                         </nav>
