@@ -14,10 +14,10 @@ export default function GuestLayout(props: GuestLayoutProps) {
     return (
         <>
             <Head title={props.title ?? name} />
-            <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+            <div className="flex min-h-screen flex-col bg-gradient-to-br from-blue-50 to-indigo-100">
                 <LandingHeader />
 
-                <main>{props.children}</main>
+                <main className="flex-1">{props.children}</main>
 
                 <LandingFooter />
             </div>
