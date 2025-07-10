@@ -24,39 +24,32 @@ export default function PelangganLayout({ children }: PelangganLayoutProps) {
     return (
         <div className="flex min-h-screen bg-gray-50">
             {/* Desktop Sidebar */}
-            <aside className="hidden md:flex flex-col w-64 bg-white border-r">
-                <div className="p-4 border-b">
+            <aside className="hidden w-64 flex-col border-r bg-white md:flex">
+                <div className="border-b p-4">
                     <h1 className="text-xl font-bold text-blue-600">PetirPay</h1>
                 </div>
                 <nav className="flex-1 p-4">
                     <ul className="space-y-1">
                         {navigationItems.map((item) => (
                             <li key={item.name}>
-                                <a
-                                    href={item.href}
-                                    className="flex items-center p-2 rounded-md hover:bg-gray-100"
-                                >
-                                    <item.icon className="w-5 h-5 mr-3 text-gray-500" />
+                                <a href={item.href} className="flex items-center rounded-md p-2 hover:bg-gray-100">
+                                    <item.icon className="mr-3 h-5 w-5 text-gray-500" />
                                     <span>{item.name}</span>
                                 </a>
                             </li>
                         ))}
                     </ul>
                 </nav>
-                <div className="p-4 border-t">
-                    <Button
-                        variant="ghost"
-                        className="w-full justify-start text-red-600"
-                        onClick={handleLogout}
-                    >
-                        <LogOut className="w-5 h-5 mr-3" />
+                <div className="border-t p-4">
+                    <Button variant="ghost" className="w-full justify-start text-red-600" onClick={handleLogout}>
+                        <LogOut className="mr-3 h-5 w-5" />
                         Keluar
                     </Button>
                 </div>
             </aside>
 
             {/* Mobile Navigation */}
-            <div className="md:hidden fixed top-0 left-0 right-0 bg-white border-b z-10 p-4 flex items-center justify-between">
+            <div className="fixed top-0 right-0 left-0 z-10 flex items-center justify-between border-b bg-white p-4 md:hidden">
                 <h1 className="text-xl font-bold text-blue-600">PetirPay</h1>
                 <Sheet>
                     <SheetTrigger asChild>
@@ -65,31 +58,24 @@ export default function PelangganLayout({ children }: PelangganLayoutProps) {
                         </Button>
                     </SheetTrigger>
                     <SheetContent side="left" className="w-64 p-0">
-                        <div className="p-4 border-b">
+                        <div className="border-b p-4">
                             <h1 className="text-xl font-bold text-blue-600">PetirPay</h1>
                         </div>
                         <nav className="flex-1 p-4">
                             <ul className="space-y-1">
                                 {navigationItems.map((item) => (
                                     <li key={item.name}>
-                                        <a
-                                            href={item.href}
-                                            className="flex items-center p-2 rounded-md hover:bg-gray-100"
-                                        >
-                                            <item.icon className="w-5 h-5 mr-3 text-gray-500" />
+                                        <a href={item.href} className="flex items-center rounded-md p-2 hover:bg-gray-100">
+                                            <item.icon className="mr-3 h-5 w-5 text-gray-500" />
                                             <span>{item.name}</span>
                                         </a>
                                     </li>
                                 ))}
                             </ul>
                         </nav>
-                        <div className="p-4 border-t">
-                            <Button
-                                variant="ghost"
-                                className="w-full justify-start text-red-600"
-                                onClick={handleLogout}
-                            >
-                                <LogOut className="w-5 h-5 mr-3" />
+                        <div className="border-t p-4">
+                            <Button variant="ghost" className="w-full justify-start text-red-600" onClick={handleLogout}>
+                                <LogOut className="mr-3 h-5 w-5" />
                                 Keluar
                             </Button>
                         </div>
@@ -98,7 +84,7 @@ export default function PelangganLayout({ children }: PelangganLayoutProps) {
             </div>
 
             {/* Main Content */}
-            <main className="flex-1 md:ml-0 mt-16 md:mt-0">{children}</main>
+            <main className="mt-16 flex-1 md:mt-0 md:ml-0">{children}</main>
         </div>
     );
 }
