@@ -22,6 +22,7 @@ class Pelanggan extends Authenticatable
         'nama',
         'email',
         'password',
+        'nomor_meter',
         'alamat',
         'id_tarif',
     ];

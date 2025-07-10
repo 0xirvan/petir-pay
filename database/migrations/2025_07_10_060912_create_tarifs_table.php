@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('daya');
             $table->decimal('tarif_per_kwh', 10, 2);
-            $table->text('keterangan')->nullable();
+            $table->text('deskripsi')->nullable();
             $table->timestamps();
         });
     }
