@@ -1,30 +1,25 @@
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import PelangganLayout from '@/layouts/pelanggan-layout';
-import { Head, Link } from '@inertiajs/react';
-import { BarChart, Battery, Bolt, Calendar, CreditCard, Home, PowerCircle, Receipt, User } from 'lucide-react';
-import React from 'react';
+import { Head } from '@inertiajs/react';
+import { BarChart, CreditCard, PowerCircle, Receipt } from 'lucide-react';
 
 export default function Dashboard() {
     return (
         <PelangganLayout>
             <Head title="Dashboard Pelanggan" />
-            
+
             <div className="container mx-auto py-8">
-                <h1 className="text-3xl font-bold mb-6">Dashboard Pelanggan</h1>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <h1 className="mb-6 text-3xl font-bold">Dashboard Pelanggan</h1>
+
+                <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                     <Card>
                         <CardHeader className="pb-2">
-                            <CardTitle className="text-sm font-medium text-muted-foreground">
-                                Tagihan Bulan Ini
-                            </CardTitle>
+                            <CardTitle className="text-sm font-medium text-muted-foreground">Tagihan Bulan Ini</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="text-2xl font-bold">Rp 250.000</div>
-                            <p className="text-xs text-muted-foreground mt-1">
-                                Jatuh tempo 20 Juli 2025
-                            </p>
+                            <p className="mt-1 text-xs text-muted-foreground">Jatuh tempo 20 Juli 2025</p>
                         </CardContent>
                         <CardFooter className="pt-0">
                             <Button className="w-full" size="sm">
@@ -33,18 +28,14 @@ export default function Dashboard() {
                             </Button>
                         </CardFooter>
                     </Card>
-                    
+
                     <Card>
                         <CardHeader className="pb-2">
-                            <CardTitle className="text-sm font-medium text-muted-foreground">
-                                Penggunaan Listrik
-                            </CardTitle>
+                            <CardTitle className="text-sm font-medium text-muted-foreground">Penggunaan Listrik</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="text-2xl font-bold">125 kWh</div>
-                            <p className="text-xs text-muted-foreground mt-1">
-                                Periode 1 - 15 Juli 2025
-                            </p>
+                            <p className="mt-1 text-xs text-muted-foreground">Periode 1 - 15 Juli 2025</p>
                         </CardContent>
                         <CardFooter className="pt-0">
                             <Button variant="outline" className="w-full" size="sm">
@@ -53,18 +44,14 @@ export default function Dashboard() {
                             </Button>
                         </CardFooter>
                     </Card>
-                    
+
                     <Card>
                         <CardHeader className="pb-2">
-                            <CardTitle className="text-sm font-medium text-muted-foreground">
-                                Daya Listrik
-                            </CardTitle>
+                            <CardTitle className="text-sm font-medium text-muted-foreground">Daya Listrik</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="text-2xl font-bold">1300 VA</div>
-                            <p className="text-xs text-muted-foreground mt-1">
-                                Rp 1.444,70 per kWh
-                            </p>
+                            <p className="mt-1 text-xs text-muted-foreground">Rp 1.444,70 per kWh</p>
                         </CardContent>
                         <CardFooter className="pt-0">
                             <Button variant="outline" className="w-full" size="sm">
@@ -74,18 +61,18 @@ export default function Dashboard() {
                         </CardFooter>
                     </Card>
                 </div>
-                
-                <h2 className="text-xl font-semibold mb-4">Riwayat Pembayaran</h2>
+
+                <h2 className="mb-4 text-xl font-semibold">Riwayat Pembayaran</h2>
                 <Card>
                     <CardContent className="p-0">
                         <table className="w-full">
                             <thead>
                                 <tr className="border-b">
-                                    <th className="text-left p-4">Tanggal</th>
-                                    <th className="text-left p-4">Deskripsi</th>
-                                    <th className="text-left p-4">Jumlah</th>
-                                    <th className="text-left p-4">Status</th>
-                                    <th className="text-left p-4">Aksi</th>
+                                    <th className="p-4 text-left">Tanggal</th>
+                                    <th className="p-4 text-left">Deskripsi</th>
+                                    <th className="p-4 text-left">Jumlah</th>
+                                    <th className="p-4 text-left">Status</th>
+                                    <th className="p-4 text-left">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -94,9 +81,7 @@ export default function Dashboard() {
                                     <td className="p-4">Tagihan Listrik Juni 2025</td>
                                     <td className="p-4">Rp 245.000</td>
                                     <td className="p-4">
-                                        <span className="px-2 py-1 rounded-full text-xs bg-green-100 text-green-800">
-                                            Lunas
-                                        </span>
+                                        <span className="rounded-full bg-green-100 px-2 py-1 text-xs text-green-800">Lunas</span>
                                     </td>
                                     <td className="p-4">
                                         <Button variant="ghost" size="sm">
@@ -109,9 +94,7 @@ export default function Dashboard() {
                                     <td className="p-4">Tagihan Listrik Mei 2025</td>
                                     <td className="p-4">Rp 230.000</td>
                                     <td className="p-4">
-                                        <span className="px-2 py-1 rounded-full text-xs bg-green-100 text-green-800">
-                                            Lunas
-                                        </span>
+                                        <span className="rounded-full bg-green-100 px-2 py-1 text-xs text-green-800">Lunas</span>
                                     </td>
                                     <td className="p-4">
                                         <Button variant="ghost" size="sm">
@@ -124,9 +107,7 @@ export default function Dashboard() {
                                     <td className="p-4">Tagihan Listrik April 2025</td>
                                     <td className="p-4">Rp 255.000</td>
                                     <td className="p-4">
-                                        <span className="px-2 py-1 rounded-full text-xs bg-green-100 text-green-800">
-                                            Lunas
-                                        </span>
+                                        <span className="rounded-full bg-green-100 px-2 py-1 text-xs text-green-800">Lunas</span>
                                     </td>
                                     <td className="p-4">
                                         <Button variant="ghost" size="sm">
