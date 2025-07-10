@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tarif;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -14,6 +15,9 @@ class LandingPageController extends Controller
 
     public function cek_tarif()
     {
-        return Inertia::render('guest/cek-tarif');
+
+        return Inertia::render('guest/cek-tarif', [
+            'tarifList' => Tarif::all(),
+        ]);
     }
 }
