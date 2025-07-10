@@ -44,12 +44,12 @@ export default function CustomerLogin({ daya }: TarifProps) {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        post(route('login'));
+        post(route('pelanggan.login.attempt'));
     };
 
     const handleRegisterSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        postRegister(route('register'));
+        postRegister(route('pelanggan.register'));
     };
 
     // Reusable input style classes

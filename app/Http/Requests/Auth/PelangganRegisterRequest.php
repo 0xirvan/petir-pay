@@ -23,10 +23,10 @@ class PelangganRegisterRequest extends FormRequest
     {
         return [
             'nama' => 'required|string|max:255',
-            'email' => 'required|email|unique:customers,email',
+            'email' => 'required|email|unique:pelanggan,email',
             'password' => 'required|min:8|confirmed',
-            'nomor_meter' => 'required|string|unique:customers,meter_number',
-            'tarif_id' => 'required|exists:power_rates,id',
+            'nomor_meter' => 'required|string|unique:pelanggan,nomor_meter',
+            'tarif_id' => 'required|exists:tarif,id',
             'alamat' => 'required|string',
         ];
     }

@@ -34,7 +34,7 @@ class AuthController extends Controller
 
         if (!$pelanggan || !Hash::check($request->password, $pelanggan->getOriginal('password'))) {
             throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
+                'email' => ['Email atau password tidak sesuai.'],
             ]);
         }
 
@@ -42,7 +42,7 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard'));
+        return redirect()->intended(route('pelanggan.dashboard'));
     }
 
     public function register(PelangganRegisterRequest $request)
@@ -53,14 +53,14 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
             'nomor_meter' => $request->nomor_meter,
             'alamat' => $request->alamat,
-            'tarif_id' => $request->tarif_id,
+            'id_tarif' => $request->tarif_id,
         ]);
 
         Auth::guard('pelanggan')->login($pelanggan);
 
         $request->session()->regenerate();
 
-        return redirect()->route('dashboard');
+        return redirect()->route('pelanggan.dashboard');
     }
 
     public function logout(Request $request)
@@ -70,6 +70,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login');
+        return redirect()->route('pelanggan.login');
     }
 }
