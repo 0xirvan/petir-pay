@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', [LandingPageController::class, 'index'])->name('home');
-
+Route::get('/cek-tarif', [LandingPageController::class, 'cek_tarif'])->name('cek-tarif');
 
 
 require __DIR__ . '/auth.php';
