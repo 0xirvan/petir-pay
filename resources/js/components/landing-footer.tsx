@@ -32,7 +32,7 @@ export default function LandingFooter() {
                             <li className="cursor-pointer transition-colors hover:text-blue-400">Hubungi Kami</li>
                             <li className="flex items-center space-x-2">
                                 <span>WhatsApp:</span>
-                                <a href="https://wa.me/6285156909088" className="text-blue-400 transition-colors hover:text-blue-300">
+                                <a href="https://wa.me/6281112345678" className="text-blue-400 transition-colors hover:text-blue-300">
                                     0811-1234-5678
                                 </a>
                             </li>
