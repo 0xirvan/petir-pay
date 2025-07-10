@@ -11,4 +11,9 @@ class LandingPageController extends Controller
     {
         return Inertia::render('guest/home');
     }
+
+    public function cek_tarif()
+    {
+        return Inertia::render('guest/cek-tarif');
+    }
 }

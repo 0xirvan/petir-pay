@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('tarif', function (Blueprint $table) {
             $table->id();
-            $table->string('daya');
+            $table->unsignedInteger('daya');
             $table->decimal('tarif_per_kwh', 10, 2);
             $table->text('deskripsi')->nullable();
             $table->timestamps();

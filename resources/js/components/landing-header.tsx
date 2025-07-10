@@ -84,9 +84,11 @@ export default function LandingHeader() {
                     {/* Desktop CTA Buttons */}
                     <div className="hidden items-center space-x-3 lg:flex">
                         <div></div>
-                        <Button className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 font-medium text-white shadow-lg transition-all duration-200 hover:from-blue-700 hover:to-blue-800 hover:shadow-xl">
-                            Mulai Sekarang
-                        </Button>
+                        <L href={route('login')}>
+                            <Button className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 font-medium text-white shadow-lg transition-all duration-200 hover:from-blue-700 hover:to-blue-800 hover:shadow-xl">
+                                Mulai Sekarang
+                            </Button>
+                        </L>
                     </div>
 
                     {/* Mobile Menu Button */}
@@ -145,9 +147,11 @@ export default function LandingHeader() {
                                 <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-blue-600 transition-all duration-200 group-hover:w-full"></span>
                             </L>
                             <div className="flex flex-col space-y-3 border-t border-gray-100 pt-4">
-                                <Button className="w-full justify-center bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg hover:from-blue-700 hover:to-blue-800">
-                                    Mulai Sekarang
-                                </Button>
+                                <L href={route('login')}>
+                                    <Button className="w-full justify-center bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg hover:from-blue-700 hover:to-blue-800">
+                                        Mulai Sekarang
+                                    </Button>
+                                </L>
                             </div>
                         </nav>
                     </div>
