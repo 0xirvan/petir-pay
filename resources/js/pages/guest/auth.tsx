@@ -7,8 +7,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AppLayout from '@/layouts/app-layout';
 import { useForm } from '@inertiajs/react';
-import { Gauge, Home, Lock, Mail, Shield, User, Zap } from 'lucide-react';
-import React from 'react';
+import { Eye, EyeOff, Gauge, Home, Lock, Mail, Shield, User, Zap } from 'lucide-react';
+import React, { useState } from 'react';
 
 interface Tarif {
     id: number;
@@ -20,6 +20,8 @@ interface TarifProps {
 }
 
 export default function CustomerLogin({ daya }: TarifProps) {
+    const [showPassword, setShowPassword] = useState(false);
+
     const { data, setData, post, processing, errors } = useForm({
         email: '',
         password: '',
@@ -121,13 +123,20 @@ export default function CustomerLogin({ daya }: TarifProps) {
                                                 <Lock className={iconClasses} />
                                                 <Input
                                                     id="password"
-                                                    type="password"
+                                                    type={showPassword ? 'text' : 'password'}
                                                     value={data.password}
                                                     onChange={(e) => setData('password', e.target.value)}
                                                     placeholder="Masukkan password"
                                                     className={`${inputClasses} ${errors.password ? errorInputClasses : ''}`}
                                                     required
                                                 />
+                                                <button
+                                                    type="button"
+                                                    className="absolute top-1/2 right-3 -translate-y-1/2 transform text-gray-400 transition-colors hover:text-gray-600"
+                                                    onClick={() => setShowPassword(!showPassword)}
+                                                >
+                                                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                                                </button>
                                                 {errors.password && <ErrorMessage message={errors.password} />}
                                             </div>
                                         </div>
