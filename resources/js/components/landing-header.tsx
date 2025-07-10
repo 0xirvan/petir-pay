@@ -128,7 +128,6 @@ export default function LandingHeader() {
                             >
                                 Cara Kerja
                             </Link>
-
                             <Link
                                 to="kontak"
                                 smooth={true}
@@ -141,18 +140,15 @@ export default function LandingHeader() {
                             </Link>
                             <L
                                 href="cek-tarif"
-                                className="group relative cursor-pointer font-medium text-gray-600 transition-colors duration-200 hover:text-blue-600"
+                                className="cursor-pointer rounded-lg px-4 py-2 text-left font-medium text-gray-600 transition-all duration-200 hover:bg-blue-50 hover:text-blue-600"
                             >
                                 Cek Tarif
-                                <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-blue-600 transition-all duration-200 group-hover:w-full"></span>
                             </L>
-                            <div className="flex flex-col space-y-3 border-t border-gray-100 pt-4">
-                                <L href={route('pelanggan.login')}>
-                                    <Button className="w-full justify-center bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg hover:from-blue-700 hover:to-blue-800">
-                                        Mulai Sekarang
-                                    </Button>
-                                </L>
-                            </div>
+                            <L href={route('pelanggan.login')}>
+                                <Button className="w-full justify-center bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg hover:from-blue-700 hover:to-blue-800">
+                                    Mulai Sekarang
+                                </Button>
+                            </L>
                         </nav>
                     </div>
                 </div>
