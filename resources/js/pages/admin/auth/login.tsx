@@ -185,7 +185,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                                     <div>
                                         <p className="text-sm font-medium text-orange-800">Akses Terbatas</p>
                                         <p className="mt-1 text-xs text-orange-600">
-                                            Portal ini hanya untuk administrator sistem. Semua aktivitas akan dicatat dan dimonitor.
+                                            Portal ini hanya untuk administrator dan petugas sistem. Semua aktivitas akan dicatat dan dimonitor.
                                         </p>
                                     </div>
                                 </div>
