@@ -204,10 +204,10 @@ export default function Home() {
                             <h3 className="mb-3 text-xl font-semibold text-gray-900">Email Support</h3>
                             <p className="mb-4 text-gray-600">Respon &lt; 2 jam</p>
                             <a
-                                href="mailto:support@listrikpay.id"
+                                href="mailto:support@petirpay.id"
                                 className="text-lg font-semibold text-purple-600 transition-colors hover:text-purple-700"
                             >
-                                support@listrikpay.id
+                                support@petirpay.id
                             </a>
                         </div>
 
