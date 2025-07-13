@@ -6,9 +6,18 @@ interface AdminSidebarProps {
     setSidebarOpen: (open: boolean) => void;
     activeTab: string;
     setActiveTab: (tab: string) => void;
+    adminName: string;
+    adminRole: string;
 }
 
-export default function AdminSidebar({ sidebarOpen, setSidebarOpen, activeTab, setActiveTab }: AdminSidebarProps) {
+export default function AdminSidebar({
+    sidebarOpen,
+    setSidebarOpen,
+    activeTab,
+    setActiveTab,
+    adminName = 'Jhon Doe',
+    adminRole = 'Damn',
+}: AdminSidebarProps) {
     const sidebarItems = [
         { id: 'dashboard', label: 'Dashboard', icon: Home },
         { id: 'tarif', label: 'Kelola Tarif', icon: Calculator },
@@ -65,8 +74,8 @@ export default function AdminSidebar({ sidebarOpen, setSidebarOpen, activeTab, s
                         <User className="h-5 w-5 text-white" />
                     </div>
                     <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-medium text-gray-900">Admin User</p>
-                        <p className="truncate text-xs text-gray-500">Super Admin</p>
+                        <p className="truncate text-sm font-medium text-gray-900">{adminName}</p>
+                        <p className="truncate text-xs text-gray-500">{adminRole.toUpperCase()}</p>
                     </div>
                 </div>
             </div>

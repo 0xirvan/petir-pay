@@ -11,7 +11,8 @@ interface AdminLayoutProps {
 }
 
 export default function AdminLayout(props: AdminLayoutProps) {
-    const { name, url } = usePage<SharedData>().props;
+    const { name, url, auth } = usePage<SharedData>().props;
+
     const page = usePage();
     const [activeTab, setActiveTab] = useState('dashboard');
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -56,14 +57,21 @@ export default function AdminLayout(props: AdminLayoutProps) {
             <Head title={props.title ?? name} />
             <div className="flex min-h-screen flex-col bg-gradient-to-br from-blue-50 to-indigo-100">
                 {/* Header */}
-                <AdminHeader sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+                <AdminHeader sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} adminName={auth.user.name} adminRole={auth.user.role} />
 
                 <div className="relative flex flex-1">
                     {/* Mobile Overlay */}
                     {sidebarOpen && <div className="bg-opacity-50 fixed inset-0 z-40 bg-black lg:hidden" onClick={() => setSidebarOpen(false)} />}
 
                     {/* Sidebar */}
-                    <AdminSidebar activeTab={activeTab} setActiveTab={setActiveTab} sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+                    <AdminSidebar
+                        activeTab={activeTab}
+                        setActiveTab={setActiveTab}
+                        sidebarOpen={sidebarOpen}
+                        setSidebarOpen={setSidebarOpen}
+                        adminName={auth.user.name}
+                        adminRole={auth.user.role}
+                    />
 
                     {/* Main Content */}
                     <AnimatePresence mode="wait">
@@ -76,7 +84,7 @@ export default function AdminLayout(props: AdminLayoutProps) {
                             className="min-w-0 flex-1 overflow-auto"
                         >
                             <main className="min-w-0 flex-1 overflow-auto">
-                                <div className="p-4 sm:p-6">{props.children}</div>
+                                <div className="p-1 sm:p-2">{props.children}</div>
                             </main>
                         </motion.div>
                     </AnimatePresence>
