@@ -49,4 +49,13 @@ class Pelanggan extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+
+    /**
+     * Relasi ke model Tarif
+     */
+    public function tarif()
+    {
+        return $this->belongsTo(Tarif::class, 'id_tarif');
+    }
 }

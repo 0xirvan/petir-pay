@@ -13,4 +13,13 @@ class Tarif extends Model
         'tarif_per_kwh',
         'deskripsi',
     ];
+
+
+    /**
+     * Relasi ke banyak pelanggan
+     */
+    public function pelanggan()
+    {
+        return $this->hasMany(Pelanggan::class, 'id_tarif');
+    }
 }
