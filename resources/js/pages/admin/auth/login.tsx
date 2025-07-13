@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useForm } from '@inertiajs/react';
+import { router, useForm } from '@inertiajs/react';
 import { Eye, EyeOff, Lock, Mail, Shield, Zap } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
@@ -55,12 +55,12 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                             </div>
                             <div>
                                 <span className="bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-2xl font-bold text-transparent">
-                                    ListrikPay
+                                    PetirPay
                                 </span>
                                 <div className="-mt-1 text-xs text-gray-500">Admin Portal</div>
                             </div>
                         </div>
-                        <Button variant="ghost" className="text-gray-600 hover:text-blue-600" onClick={() => window.history.back()}>
+                        <Button variant="ghost" className="text-gray-600 hover:text-blue-600" onClick={() => router.visit('/')}>
                             ← Kembali ke Beranda
                         </Button>
                     </div>
