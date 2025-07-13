@@ -10,13 +10,14 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('penggunaan', function (Blueprint $table) {
+        Schema::create('tagihan', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('id_penggunaan')->constrained('penggunaan')->onDelete('cascade');
             $table->foreignId('id_pelanggan')->constrained('pelanggan')->onDelete('cascade');
             $table->unsignedTinyInteger('bulan');
             $table->year('tahun');
-            $table->unsignedInteger('meter_awal');
-            $table->unsignedInteger('meter_akhir');
+            $table->integer('jumlah_meter');
+            $table->enum('status', ['belum_bayar', 'menunggu_konfirmasi', 'lunas'])->default('belum_bayar');
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('penggunaan');
+        Schema::dropIfExists('tagihan');
     }
 };
