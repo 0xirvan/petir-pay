@@ -152,9 +152,7 @@ export default function CustomerLogin({ daya }: TarifProps) {
                                                     Ingat saya
                                                 </Label>
                                             </div>
-                                            <a href="#" className="text-sm font-medium text-blue-600 hover:text-blue-700">
-                                                Lupa password?
-                                            </a>
+                                            <a className="text-sm font-medium text-blue-600 hover:text-blue-700">Lupa password?</a>
                                         </div>
 
                                         <Button
@@ -339,14 +337,8 @@ export default function CustomerLogin({ daya }: TarifProps) {
                                     <div className="mt-3 rounded-lg border border-gray-200 bg-gray-50 p-3.5">
                                         <p className="text-center text-xs text-gray-600">
                                             Dengan mendaftar, Anda menyetujui{' '}
-                                            <a href="#" className="font-medium text-blue-600 hover:text-blue-700">
-                                                Syarat & Ketentuan
-                                            </a>{' '}
-                                            dan{' '}
-                                            <a href="#" className="font-medium text-blue-600 hover:text-blue-700">
-                                                Kebijakan Privasi
-                                            </a>{' '}
-                                            kami.
+                                            <a className="font-medium text-blue-600 hover:text-blue-700">Syarat & Ketentuan</a> dan{' '}
+                                            <a className="font-medium text-blue-600 hover:text-blue-700">Kebijakan Privasi</a> kami.
                                         </p>
                                     </div>
                                 </TabsContent>
