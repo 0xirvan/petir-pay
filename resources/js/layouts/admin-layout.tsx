@@ -84,7 +84,7 @@ export default function AdminLayout(props: AdminLayoutProps) {
                             className="min-w-0 flex-1 overflow-auto"
                         >
                             <main className="min-w-0 flex-1 overflow-auto">
-                                <div className="p-1 sm:p-2">{props.children}</div>
+                                <div className="p-3 sm:p-4 lg:p-6">{props.children}</div>
                             </main>
                         </motion.div>
                     </AnimatePresence>
