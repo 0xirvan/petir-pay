@@ -82,7 +82,7 @@ class PembayaranSeeder extends Seeder
                 'id_tagihan' => $tagihan->id,
                 'id_pelanggan' => $tagihan->id_pelanggan,
                 'id_metode_pembayaran' => $metode->id,
-                'tanggal_pembayaran' => now()->subDays(rand(1, 5)),
+                'tanggal_pembayaran' => now(),
                 'bulan_bayar' => $tagihan->bulan,
                 'total_bayar' => $totalBayar,
                 'id_user' => $user->id,
