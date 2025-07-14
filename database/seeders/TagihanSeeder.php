@@ -14,7 +14,6 @@ class TagihanSeeder extends Seeder
      */
     public function run(): void
     {
-        // Get all existing penggunaan (usage) records to create tagihan for
         $penggunaanRecords = Penggunaan::with('pelanggan.tarif')->get();
 
         foreach ($penggunaanRecords as $penggunaan) {
@@ -24,21 +23,17 @@ class TagihanSeeder extends Seeder
                 continue;
             }
 
-            $tarif = $pelanggan->tarif;
-
             // Calculate kwh terpakai
             $kwhTerpakai = $penggunaan->meter_akhir - $penggunaan->meter_awal;
+            $kwhTerpakai = max(0, $kwhTerpakai);
 
-            // Calculate total amount
-            $jumlahMeter = $kwhTerpakai * $tarif->tarif_per_kwh;
 
-            // Create tagihan for this usage
             Tagihan::create([
                 'id_pelanggan' => $pelanggan->id,
                 'id_penggunaan' => $penggunaan->id,
                 'bulan' => $penggunaan->bulan,
                 'tahun' => $penggunaan->tahun,
-                'jumlah_meter' => $jumlahMeter,
+                'jumlah_meter' => $kwhTerpakai,
                 'status' => $this->getRandomStatus(),
                 'created_at' => $penggunaan->created_at,
                 'updated_at' => $penggunaan->updated_at,
