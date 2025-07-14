@@ -1,4 +1,5 @@
-import { Link } from '@inertiajs/react';
+import { SharedData } from '@/types';
+import { Link, usePage } from '@inertiajs/react';
 import { Calculator, CreditCard, Home, Receipt, Settings, User, Users, X, Zap } from 'lucide-react';
 import { Button } from './ui/button';
 
@@ -10,14 +11,17 @@ interface AdminSidebarProps {
 }
 
 export default function AdminSidebar({ sidebarOpen, setSidebarOpen, adminName = 'Jhon Doe', adminRole = 'Damn' }: AdminSidebarProps) {
+    const { auth } = usePage<SharedData>().props;
+    const role = auth.user.role;
+
     const sidebarItems = [
-        { id: 'dashboard', label: 'Dashboard', icon: Home, route: 'admin.dashboard' },
-        { id: 'tarif', label: 'Kelola Tarif', icon: Calculator, route: 'admin.kelola-tarif' },
-        { id: 'admin', label: 'Kelola Admin', icon: Users, route: 'admin.dashboard' },
-        { id: 'pelanggan', label: 'Data Pelanggan', icon: User, route: 'admin.dashboard' },
-        { id: 'tagihan', label: 'Verifikasi Tagihan', icon: Receipt, route: 'admin.dashboard' },
-        { id: 'riwayat', label: 'Riwayat Pembayaran', icon: CreditCard, route: 'admin.dashboard' },
-        { id: 'settings', label: 'Pengaturan', icon: Settings, route: 'admin.dashboard' },
+        { id: 'dashboard', label: 'Dashboard', icon: Home, route: 'admin.dashboard', forRoles: ['administrator, petugas'] },
+        { id: 'tarif', label: 'Kelola Tarif', icon: Calculator, route: 'admin.kelola-tarif', forRoles: ['administrator'] },
+        { id: 'admin', label: 'Kelola Admin', icon: Users, route: 'admin.dashboard', forRoles: ['administrator'] },
+        { id: 'pelanggan', label: 'Data Pelanggan', icon: User, route: 'admin.dashboard', forRoles: ['administrator'] },
+        { id: 'tagihan', label: 'Verifikasi Tagihan', icon: Receipt, route: 'admin.dashboard', forRoles: ['administrator'] },
+        { id: 'riwayat', label: 'Riwayat Pembayaran', icon: CreditCard, route: 'admin.dashboard', forRoles: ['administrator'] },
+        { id: 'settings', label: 'Pengaturan', icon: Settings, route: 'admin.dashboard', forRoles: ['administrator'] },
     ];
 
     return (
@@ -39,24 +43,27 @@ export default function AdminSidebar({ sidebarOpen, setSidebarOpen, adminName = 
 
             {/* Navigation */}
             <nav className="flex-1 space-y-2 overflow-y-auto p-4">
-                {sidebarItems.map((item) => {
-                    const Icon = item.icon;
-                    return (
-                        <Link
-                            href={route(item.route)}
-                            key={item.id}
-                            onClick={() => {
-                                setSidebarOpen(false); // Close sidebar on mobile after selection
-                            }}
-                            className={`flex w-full items-center space-x-3 rounded-lg px-4 py-3 transition-colors ${
-                                route().current(item.route) ? 'bg-blue-100 font-medium text-blue-700' : 'text-gray-600 hover:bg-gray-100'
-                            }`}
-                        >
-                            <Icon className="h-5 w-5 flex-shrink-0" />
-                            <span className="truncate">{item.label}</span>
-                        </Link>
-                    );
-                })}
+                {sidebarItems
+                    .filter((item) => item.forRoles.some((allowedRole) => allowedRole.includes(role)))
+                    .map((item) => {
+                        const Icon = item.icon;
+
+                        return (
+                            <Link
+                                href={route(item.route)}
+                                key={item.id}
+                                onClick={() => {
+                                    setSidebarOpen(false); // Close sidebar on mobile after selection
+                                }}
+                                className={`flex w-full items-center space-x-3 rounded-lg px-4 py-3 transition-colors ${
+                                    route().current(item.route) ? 'bg-blue-100 font-medium text-blue-700' : 'text-gray-600 hover:bg-gray-100'
+                                }`}
+                            >
+                                <Icon className="h-5 w-5 flex-shrink-0" />
+                                <span className="truncate">{item.label}</span>
+                            </Link>
+                        );
+                    })}
             </nav>
 
             {/* Sidebar Footer */}

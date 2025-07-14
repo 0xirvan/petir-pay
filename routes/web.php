@@ -10,3 +10,4 @@ Route::get('/cek-tarif', [LandingPageController::class, 'cek_tarif'])->name('cek
 
 require __DIR__ . '/admin_auth.php';
 require __DIR__ . '/pelanggan_auth.php';
+require __DIR__ . '/admin.php';

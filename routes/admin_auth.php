@@ -28,10 +28,3 @@ Route::middleware('guest')->prefix('admin')->group(function () {
         ->name('admin.login.attempt');
 });
 
-
-Route::middleware('auth')->prefix('admin')->group(function () {
-    Route::post('logout', [AuthController::class, 'logout'])
-        ->name('admin.logout');
-    Route::get('dashboard', [DashboardController::class, 'index'])
-        ->name('admin.dashboard');
-});
