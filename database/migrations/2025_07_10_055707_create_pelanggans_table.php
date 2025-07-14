@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string('email')->unique();
             $table->string('password');
             $table->text('alamat');
-            $table->text('nomor_meter')->unique();
+            $table->string('nomor_meter')->unique();
             $table->foreignId('id_tarif')->nullable()->constrained('tarif')->onDelete('set null');
             $table->rememberToken();
             $table->timestamps();
