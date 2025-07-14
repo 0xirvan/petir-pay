@@ -1,31 +1,23 @@
+import { Link } from '@inertiajs/react';
 import { Calculator, CreditCard, Home, Receipt, Settings, User, Users, X, Zap } from 'lucide-react';
 import { Button } from './ui/button';
 
 interface AdminSidebarProps {
     sidebarOpen: boolean;
     setSidebarOpen: (open: boolean) => void;
-    activeTab: string;
-    setActiveTab: (tab: string) => void;
     adminName: string;
     adminRole: string;
 }
 
-export default function AdminSidebar({
-    sidebarOpen,
-    setSidebarOpen,
-    activeTab,
-    setActiveTab,
-    adminName = 'Jhon Doe',
-    adminRole = 'Damn',
-}: AdminSidebarProps) {
+export default function AdminSidebar({ sidebarOpen, setSidebarOpen, adminName = 'Jhon Doe', adminRole = 'Damn' }: AdminSidebarProps) {
     const sidebarItems = [
-        { id: 'dashboard', label: 'Dashboard', icon: Home },
-        { id: 'tarif', label: 'Kelola Tarif', icon: Calculator },
-        { id: 'admin', label: 'Kelola Admin', icon: Users },
-        { id: 'pelanggan', label: 'Data Pelanggan', icon: User },
-        { id: 'tagihan', label: 'Verifikasi Tagihan', icon: Receipt },
-        { id: 'riwayat', label: 'Riwayat Pembayaran', icon: CreditCard },
-        { id: 'settings', label: 'Pengaturan', icon: Settings },
+        { id: 'dashboard', label: 'Dashboard', icon: Home, route: 'admin.dashboard' },
+        { id: 'tarif', label: 'Kelola Tarif', icon: Calculator, route: 'admin.kelola-tarif' },
+        { id: 'admin', label: 'Kelola Admin', icon: Users, route: 'admin.dashboard' },
+        { id: 'pelanggan', label: 'Data Pelanggan', icon: User, route: 'admin.dashboard' },
+        { id: 'tagihan', label: 'Verifikasi Tagihan', icon: Receipt, route: 'admin.dashboard' },
+        { id: 'riwayat', label: 'Riwayat Pembayaran', icon: CreditCard, route: 'admin.dashboard' },
+        { id: 'settings', label: 'Pengaturan', icon: Settings, route: 'admin.dashboard' },
     ];
 
     return (
@@ -50,19 +42,19 @@ export default function AdminSidebar({
                 {sidebarItems.map((item) => {
                     const Icon = item.icon;
                     return (
-                        <button
+                        <Link
+                            href={route(item.route)}
                             key={item.id}
                             onClick={() => {
-                                setActiveTab(item.id);
                                 setSidebarOpen(false); // Close sidebar on mobile after selection
                             }}
                             className={`flex w-full items-center space-x-3 rounded-lg px-4 py-3 transition-colors ${
-                                activeTab === item.id ? 'bg-blue-100 font-medium text-blue-700' : 'text-gray-600 hover:bg-gray-100'
+                                route().current(item.route) ? 'bg-blue-100 font-medium text-blue-700' : 'text-gray-600 hover:bg-gray-100'
                             }`}
                         >
                             <Icon className="h-5 w-5 flex-shrink-0" />
                             <span className="truncate">{item.label}</span>
-                        </button>
+                        </Link>
                     );
                 })}
             </nav>
