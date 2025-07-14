@@ -11,10 +11,11 @@ class TarifController extends Controller
 {
     public function index()
     {
-        $tarifs = Tarif::orderBy('created_at', 'desc')->get();
+        $tarifs = Tarif::orderBy("daya")->get();
 
         return Inertia::render('admin/kelola-tarif', [
-            'tarifs' => $tarifs
+            'title' => 'Kelola Tarif',
+            'tarifList' => $tarifs
         ]);
     }
 
@@ -26,14 +27,18 @@ class TarifController extends Controller
             'deskripsi' => 'nullable|string|max:255',
         ]);
 
-        Tarif::create([
-            'daya' => $request->daya,
-            'tarif_per_kwh' => $request->tarif_per_kwh,
-            'deskripsi' => $request->deskripsi,
+        $tarif = Tarif::create([
+            'daya' => $request->input('daya'),
+            'tarif_per_kwh' => $request->input('tarif_per_kwh'),
+            'deskripsi' => $request->input('deskripsi'),
         ]);
 
-        return redirect()->back()->with('success', 'Tarif berhasil ditambahkan');
+        return back()->with([
+            'success' => 'Tarif berhasil ditambahkan!',
+            'tarifBaru' => $tarif,
+        ]);
     }
+
 
     public function update(Request $request, $id)
     {
@@ -50,7 +55,7 @@ class TarifController extends Controller
             'deskripsi' => $request->deskripsi,
         ]);
 
-        return redirect()->back()->with('success', 'Tarif berhasil diperbarui');
+        return back()->with('success', 'Tarif berhasil diperbarui');
     }
 
     public function destroy($id)
@@ -58,6 +63,6 @@ class TarifController extends Controller
         $tarif = Tarif::findOrFail($id);
         $tarif->delete();
 
-        return redirect()->back()->with('success', 'Tarif berhasil dihapus');
+        return back()->with('success', 'Tarif berhasil dihapus');
     }
 }

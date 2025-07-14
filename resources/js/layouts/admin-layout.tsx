@@ -3,7 +3,8 @@ import AdminSidebar from '@/components/admin-sidebar';
 import { SharedData } from '@/types';
 import { Head, usePage } from '@inertiajs/react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 interface AdminLayoutProps {
     children: React.ReactNode;
@@ -11,8 +12,23 @@ interface AdminLayoutProps {
 }
 
 export default function AdminLayout(props: AdminLayoutProps) {
-    const { name, url, auth } = usePage<SharedData>().props;
+    const { name, url, auth, flash } = usePage<SharedData>().props;
     const [sidebarOpen, setSidebarOpen] = useState(false);
+
+    useEffect(() => {
+        if (flash?.success) {
+            toast.success(flash.success);
+        }
+        if (flash?.error) {
+            toast.error(flash.error);
+        }
+        if (flash?.warning) {
+            toast.warning(flash.warning);
+        }
+        if (flash?.info) {
+            toast.info(flash.info);
+        }
+    }, [flash]);
 
     return (
         <>
