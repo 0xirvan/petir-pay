@@ -88,7 +88,7 @@ export default function Dashboard({ title, statistik, recent_tagihan, recent_pel
             <div className="space-y-6">
                 <div className="mb-4 sm:mb-6">
                     <h1 className="mb-1 text-xl font-bold text-gray-900 sm:mb-2 sm:text-2xl lg:text-3xl">Dashboard Admin</h1>
-                    <p className="text-sm text-gray-600 sm:text-base">Selamat datang di panel administrasi ListrikPay</p>
+                    <p className="text-sm text-gray-600 sm:text-base">Selamat datang di panel administrasi PetirPay</p>
                 </div>
 
                 {/* Stats Cards */}
