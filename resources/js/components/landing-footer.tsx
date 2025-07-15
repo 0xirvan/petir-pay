@@ -47,7 +47,7 @@ export default function LandingFooter() {
                 </div>
 
                 <div className="flex flex-col items-center justify-between border-t border-gray-800 pt-6 md:flex-row">
-                    <p className="text-sm text-gray-400">&copy; 2024 PetirPay. Semua hak dilindungi undang-undang.</p>
+                    <p className="text-sm text-gray-400">&copy; {new Date().getFullYear()} PetirPay. Semua hak dilindungi undang-undang.</p>
                     <div className="mt-4 flex space-x-6 md:mt-0">
                         <a className="text-sm text-gray-400 transition-colors hover:text-blue-400">Kebijakan Privasi</a>
                         <a className="text-sm text-gray-400 transition-colors hover:text-blue-400">Syarat & Ketentuan</a>

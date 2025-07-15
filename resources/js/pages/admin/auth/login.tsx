@@ -200,7 +200,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                             <button
                                 type="button"
                                 className="text-sm font-medium text-blue-600 transition-colors hover:text-blue-700"
-                                onClick={() => alert('IT Support: it-support@listrikpay.id')}
+                                onClick={() => alert('IT Support: it-support@petirpay.id')}
                             >
                                 Hubungi IT Support
                             </button>
