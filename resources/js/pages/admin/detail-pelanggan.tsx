@@ -178,7 +178,7 @@ export default function DetailPelanggan({ title, pelanggan }: DetailPelangganPro
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-600">Harga per kWh</label>
-                                <p className="mt-1 text-lg font-semibold text-green-600">{formatCurrency(pelanggan.tarif.tarif_per_kwh)}</p>
+                                <p className="mt-1 text-lg font-semibold text-green-600">{'Rp ' + pelanggan.tarif.tarif_per_kwh}</p>
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-600">Deskripsi</label>
