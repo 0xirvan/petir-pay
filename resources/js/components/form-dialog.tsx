@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useForm } from '@inertiajs/react';
 import { Edit, Plus } from 'lucide-react';
 import { useState } from 'react';
@@ -10,8 +11,10 @@ interface FormField {
     id: string;
     label: string;
     placeholder?: string;
-    type?: 'text' | 'number' | 'email' | 'password';
+    type?: 'text' | 'number' | 'email' | 'password' | 'select';
     required?: boolean;
+    defaultValue?: string;
+    options?: { value: string; label: string }[];
 }
 
 interface FormDialogProps {
@@ -48,7 +51,7 @@ export function FormDialog({
     const defaultFormData = fields.reduce(
         (acc, field) => ({
             ...acc,
-            [field.id]: initialData[field.id] || '',
+            [field.id]: field.defaultValue || initialData[field.id] || '',
         }),
         {},
     );
@@ -110,14 +113,33 @@ export function FormDialog({
                     {fields.map((field) => (
                         <div key={field.id}>
                             <Label htmlFor={field.id}>{field.label}</Label>
-                            <Input
-                                id={field.id}
-                                type={field.type || 'text'}
-                                placeholder={field.placeholder}
-                                value={data[field.id] || ''}
-                                onChange={(e) => handleInputChange(field.id, e.target.value)}
-                                required={field.required}
-                            />
+                            {field.type === 'select' ? (
+                                <Select
+                                    value={data[field.id] || ''}
+                                    onValueChange={(value) => handleInputChange(field.id, value)}
+                                    required={field.required}
+                                >
+                                    <SelectTrigger>
+                                        <SelectValue placeholder={field.placeholder || 'Pilih option'} />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {field.options?.map((option) => (
+                                            <SelectItem key={option.value} value={option.value}>
+                                                {option.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            ) : (
+                                <Input
+                                    id={field.id}
+                                    type={field.type || 'text'}
+                                    placeholder={field.placeholder}
+                                    value={data[field.id] || ''}
+                                    onChange={(e) => handleInputChange(field.id, e.target.value)}
+                                    required={field.required}
+                                />
+                            )}
                         </div>
                     ))}
                     <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700" disabled={processing}>

@@ -37,7 +37,7 @@ export default function KelolaTarif({ tarifList, title }: KelolaTarifProps) {
     return (
         <AdminLayout title={title}>
             <div className="space-y-6">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <h1 className="mb-2 text-3xl font-bold text-gray-900">Kelola Tarif Listrik</h1>
                         <p className="text-gray-600">Atur tarif listrik untuk berbagai daya terpasang</p>

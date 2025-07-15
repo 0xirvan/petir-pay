@@ -19,7 +19,7 @@ export default function AdminSidebar({ sidebarOpen, setSidebarOpen, adminName = 
     const sidebarItems = [
         { id: 'dashboard', label: 'Dashboard', icon: Home, route: 'admin.dashboard', forRoles: ['administrator, petugas'] },
         { id: 'tarif', label: 'Kelola Tarif', icon: Calculator, route: 'admin.kelola-tarif', forRoles: ['administrator'] },
-        { id: 'admin', label: 'Kelola Admin', icon: Users, route: 'admin.dashboard', forRoles: ['administrator'] },
+        { id: 'admin', label: 'Kelola Admin', icon: Users, route: 'admin.kelola-admin', forRoles: ['administrator'] },
         { id: 'pelanggan', label: 'Data Pelanggan', icon: User, route: 'admin.dashboard', forRoles: ['administrator'] },
         { id: 'tagihan', label: 'Verifikasi Tagihan', icon: Receipt, route: 'admin.dashboard', forRoles: ['administrator'] },
         { id: 'riwayat', label: 'Riwayat Pembayaran', icon: CreditCard, route: 'admin.dashboard', forRoles: ['administrator'] },
@@ -36,7 +36,7 @@ export default function AdminSidebar({ sidebarOpen, setSidebarOpen, adminName = 
                     <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-600 to-blue-700">
                         <Zap className="h-4 w-4 text-white" />
                     </div>
-                    <span className="font-bold text-blue-600">ListrikPay</span>
+                    <span className="font-bold text-blue-600">PetirPay</span>
                 </div>
                 <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(false)}>
                     <X className="h-5 w-5" />
