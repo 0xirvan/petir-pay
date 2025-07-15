@@ -27,11 +27,11 @@ interface Penggunaan {
 interface Pembayaran {
     id: number;
     tanggal_pembayaran: string;
-    total_bayar: number;
+    total_bayar: number | string;
     metode_pembayaran: {
         id: number;
         nama: string;
-        biaya_admin: number;
+        biaya_admin: number | string;
     };
 }
 
@@ -245,11 +245,10 @@ export default function DetailPelanggan({ title, pelanggan }: DetailPelangganPro
                                                     const pembayaran = t.pembayaran?.[0];
                                                     const totalBayar = pembayaran?.total_bayar;
                                                     // Pastikan nilai numerik yang valid
-                                                    const validAmount = typeof totalBayar === 'number' && !isNaN(totalBayar) 
-                                                        ? totalBayar 
-                                                        : t.total_biaya;
+                                                    const validAmount =
+                                                        typeof totalBayar === 'number' && !isNaN(totalBayar) ? totalBayar : t.total_biaya;
                                                     return sum + validAmount;
-                                                }, 0)
+                                                }, 0),
                                         )}
                                     </p>
                                 </div>
@@ -336,13 +335,22 @@ export default function DetailPelanggan({ title, pelanggan }: DetailPelangganPro
                                     ) : (
                                         pelanggan.tagihan.map((tagihan) => {
                                             const pembayaran = tagihan.pembayaran?.[0]; // Ambil pembayaran pertama (jika ada)
-                                            const biayaAdmin = pembayaran?.metode_pembayaran?.biaya_admin || 0;
-                                            
-                                            // Untuk tagihan yang sudah dibayar, gunakan total_bayar dari pembayaran
-                                            // Untuk tagihan belum bayar, gunakan total_biaya saja
-                                            const totalBayar = tagihan.status === 'lunas' && pembayaran 
-                                                ? pembayaran.total_bayar 
-                                                : tagihan.total_biaya; // Belum bayar hanya tampilkan biaya listrik
+                                            const biayaAdminRaw = pembayaran?.metode_pembayaran?.biaya_admin;
+                                            const totalBayarRaw = pembayaran?.total_bayar;
+
+                                            // Convert string values to numbers - handle both string and number types
+                                            const biayaAdmin =
+                                                typeof biayaAdminRaw === 'string'
+                                                    ? parseFloat(biayaAdminRaw)
+                                                    : typeof biayaAdminRaw === 'number'
+                                                      ? biayaAdminRaw
+                                                      : 0;
+                                            const totalBayar =
+                                                typeof totalBayarRaw === 'string'
+                                                    ? parseFloat(totalBayarRaw)
+                                                    : typeof totalBayarRaw === 'number'
+                                                      ? totalBayarRaw
+                                                      : 0;
 
                                             return (
                                                 <TableRow key={tagihan.id} className="border-gray-100">
@@ -355,12 +363,21 @@ export default function DetailPelanggan({ title, pelanggan }: DetailPelangganPro
                                                         {formatCurrency(tagihan.total_biaya)}
                                                     </TableCell>
                                                     <TableCell className="font-semibold text-orange-600">
-                                                        {tagihan.status === 'lunas' && biayaAdmin > 0 ? formatCurrency(biayaAdmin) : 
-                                                         tagihan.status === 'belum_bayar' ? 'Belum ditentukan' : '-'}
+                                                        {tagihan.status === 'lunas' &&
+                                                        pembayaran &&
+                                                        pembayaran.metode_pembayaran &&
+                                                        !isNaN(biayaAdmin)
+                                                            ? formatCurrency(biayaAdmin)
+                                                            : tagihan.status === 'belum_bayar'
+                                                              ? 'Belum ditentukan'
+                                                              : '-'}
                                                     </TableCell>
                                                     <TableCell className="font-bold text-blue-600">
-                                                        {tagihan.status === 'lunas' ? formatCurrency(totalBayar) : 
-                                                         `${formatCurrency(tagihan.total_biaya)} + admin`}
+                                                        {tagihan.status === 'lunas' && pembayaran && !isNaN(totalBayar)
+                                                            ? formatCurrency(totalBayar)
+                                                            : tagihan.status === 'belum_bayar'
+                                                              ? `${formatCurrency(tagihan.total_biaya)} + admin`
+                                                              : formatCurrency(tagihan.total_biaya)}
                                                     </TableCell>
                                                     <TableCell>{getStatusBadge(tagihan.status)}</TableCell>
                                                     <TableCell className="text-gray-600">

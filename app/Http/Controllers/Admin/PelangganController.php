@@ -102,7 +102,9 @@ class PelangganController extends Controller
             'tagihan' => function ($query) {
                 $query->with([
                     'pelanggan.tarif',
-                    'pembayaran.metodePembayaran'
+                    'pembayaran' => function ($subQuery) {
+                        $subQuery->with('metodePembayaran');
+                    }
                 ])->latest()->take(12);
             }
         ])->findOrFail($id);
