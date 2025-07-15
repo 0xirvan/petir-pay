@@ -243,11 +243,11 @@ export default function DataPelanggan({ title, pelanggan, tarifs, filters, stats
                         <CardContent className="p-6">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm text-gray-600">Tarif 900VA</p>
-                                    <p className="text-2xl font-bold text-green-600">{stats.total_tarif_900va}</p>
+                                    <p className="text-sm text-gray-600">Pelanggan Aktif</p>
+                                    <p className="text-2xl font-bold text-green-600">{stats.total_pelanggan}</p>
                                 </div>
                                 <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-100">
-                                    <Zap className="h-6 w-6 text-green-600" />
+                                    <Users className="h-6 w-6 text-green-600" />
                                 </div>
                             </div>
                         </CardContent>
@@ -257,11 +257,18 @@ export default function DataPelanggan({ title, pelanggan, tarifs, filters, stats
                         <CardContent className="p-6">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm text-gray-600">Tarif 1300VA</p>
-                                    <p className="text-2xl font-bold text-blue-600">{stats.total_tarif_1300va}</p>
+                                    <p className="text-sm text-gray-600">Total Daya Terpasang</p>
+                                    <p className="text-2xl font-bold text-orange-600">
+                                        {(
+                                            stats.total_tarif_900va * 900 +
+                                            stats.total_tarif_1300va * 1300 +
+                                            stats.total_tarif_2200va * 2200
+                                        ).toLocaleString('id-ID')}{' '}
+                                        VA
+                                    </p>
                                 </div>
-                                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100">
-                                    <Zap className="h-6 w-6 text-blue-600" />
+                                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-orange-100">
+                                    <Zap className="h-6 w-6 text-orange-600" />
                                 </div>
                             </div>
                         </CardContent>
@@ -271,11 +278,12 @@ export default function DataPelanggan({ title, pelanggan, tarifs, filters, stats
                         <CardContent className="p-6">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm text-gray-600">Tarif 2200VA</p>
-                                    <p className="text-2xl font-bold text-purple-600">{stats.total_tarif_2200va}</p>
+                                    <p className="text-sm text-gray-600">Rata-rata per Hari</p>
+                                    <p className="text-2xl font-bold text-indigo-600">{Math.round(stats.total_pelanggan / 30)}</p>
+                                    <p className="text-xs text-gray-500">pelanggan baru</p>
                                 </div>
-                                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100">
-                                    <Zap className="h-6 w-6 text-purple-600" />
+                                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-indigo-100">
+                                    <Plus className="h-6 w-6 text-indigo-600" />
                                 </div>
                             </div>
                         </CardContent>

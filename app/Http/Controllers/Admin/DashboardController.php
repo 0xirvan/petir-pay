@@ -21,11 +21,13 @@ class DashboardController extends Controller
             'total_tagihan_belum_bayar' => Tagihan::where('status', 'belum_bayar')->count(),
             'total_tagihan_menunggu_konfirmasi' => Tagihan::where('status', 'menunggu_konfirmasi')->count(),
             'total_tagihan_lunas' => Tagihan::where('status', 'lunas')->count(),
+            // Perbaikan: Gunakan pembayaran untuk perhitungan yang akurat
             'total_pendapatan_bulan_ini' => Pembayaran::whereMonth('tanggal_pembayaran', now()->month)
                 ->whereYear('tanggal_pembayaran', now()->year)
-                ->sum('total_bayar'),
+                ->sum('total_bayar') ?? 0,
             'total_pendapatan_hari_ini' => Pembayaran::whereDate('tanggal_pembayaran', now()->toDateString())
-                ->sum('total_bayar'),
+                ->sum('total_bayar') ?? 0,
+            'total_pendapatan' => Pembayaran::sum('total_bayar') ?? 0,
         ];
 
 
@@ -176,21 +178,35 @@ class DashboardController extends Controller
     }
 
     /**
-     * Get monthly revenue data for the last 6 months
+     * Get monthly revenue data for the last 12 months
      */
     private function getMonthlyRevenue()
     {
         $months = [];
-        $targetBulanan = 10_000_000;
+        $targetBulanan = 50_000_000;
 
-        for ($i = 5; $i >= 0; $i--) {
+
+        for ($i = 11; $i >= 0; $i--) {
             $date = now()->subMonths($i);
+
+            // Gunakan data pembayaran untuk perhitungan yang akurat
             $pendapatan = Pembayaran::whereMonth('tanggal_pembayaran', $date->month)
                 ->whereYear('tanggal_pembayaran', $date->year)
-                ->sum('total_bayar');
+                ->sum('total_bayar') ?? 0;
+
+            // Jika tidak ada data pembayaran, fallback ke tagihan lunas
+            if ($pendapatan == 0) {
+                $pendapatan = Tagihan::join('pelanggan', 'tagihan.id_pelanggan', '=', 'pelanggan.id')
+                    ->join('tarif', 'pelanggan.id_tarif', '=', 'tarif.id')
+                    ->where('tagihan.status', 'lunas')
+                    ->whereMonth('tagihan.tanggal_bayar', $date->month)
+                    ->whereYear('tagihan.tanggal_bayar', $date->year)
+                    ->selectRaw('SUM(tagihan.jumlah_meter * tarif.tarif_per_kwh + 2500) as total')
+                    ->value('total') ?? 0;
+            }
 
             $months[] = [
-                'bulan' => $date->format('M'),
+                'bulan' => $date->format('M Y'),
                 'pendapatan' => (int) $pendapatan,
                 'target' => $targetBulanan,
             ];

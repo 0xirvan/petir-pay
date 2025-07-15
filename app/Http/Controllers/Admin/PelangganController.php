@@ -100,7 +100,10 @@ class PelangganController extends Controller
                 $query->latest()->take(12); // 12 bulan terakhir
             },
             'tagihan' => function ($query) {
-                $query->with('pelanggan.tarif')->latest()->take(12);
+                $query->with([
+                    'pelanggan.tarif',
+                    'pembayaran.metodePembayaran'
+                ])->latest()->take(12);
             }
         ])->findOrFail($id);
 

@@ -15,6 +15,7 @@ interface DashboardProps {
         total_tagihan_lunas: number;
         total_pendapatan_bulan_ini: number;
         total_pendapatan_hari_ini: number;
+        total_pendapatan: number;
     };
     recent_tagihan: Array<{
         id: number;
@@ -299,15 +300,15 @@ export default function Dashboard({ title, statistik, recent_tagihan, recent_pel
                             {/* Responsive Summary */}
                             <div className="mt-3 grid grid-cols-2 gap-2 border-t border-gray-100 pt-3 sm:mt-4 sm:gap-4 sm:pt-4">
                                 <div className="rounded-lg bg-blue-50 p-2 text-center sm:p-3">
-                                    <p className="text-xs text-gray-600 sm:text-sm">Total Pendapatan</p>
+                                    <p className="text-xs text-gray-600 sm:text-sm">Total Pendapatan Keseluruhan</p>
                                     <p className="truncate text-sm font-bold text-blue-600 sm:text-lg">
-                                        {formatCurrency(pendapatanData.reduce((sum, item) => sum + item.pendapatan, 0))}
+                                        {formatCurrency(statistik.total_pendapatan)}
                                     </p>
                                 </div>
                                 <div className="rounded-lg bg-green-50 p-2 text-center sm:p-3">
-                                    <p className="text-xs text-gray-600 sm:text-sm">Rata-rata Bulanan</p>
+                                    <p className="text-xs text-gray-600 sm:text-sm">Pendapatan Bulan Ini</p>
                                     <p className="truncate text-sm font-bold text-green-600 sm:text-lg">
-                                        {formatCurrency(pendapatanData.reduce((sum, item) => sum + item.pendapatan, 0) / pendapatanData.length)}
+                                        {formatCurrency(statistik.total_pendapatan_bulan_ini)}
                                     </p>
                                 </div>
                             </div>

@@ -46,6 +46,14 @@ class Tagihan extends Model
     }
 
     /**
+     * Relasi ke model Pembayaran
+     */
+    public function pembayaran()
+    {
+        return $this->hasMany(Pembayaran::class, 'id_tagihan');
+    }
+
+    /**
      * Scope untuk status lunas
      */
     public function scopeLunas($query)

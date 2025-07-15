@@ -24,6 +24,17 @@ interface Penggunaan {
     created_at: string;
 }
 
+interface Pembayaran {
+    id: number;
+    tanggal_pembayaran: string;
+    total_bayar: number;
+    metode_pembayaran: {
+        id: number;
+        nama: string;
+        biaya_admin: number;
+    };
+}
+
 interface Tagihan {
     id: number;
     bulan: string;
@@ -35,6 +46,7 @@ interface Tagihan {
     status: string;
     tanggal_bayar?: string;
     created_at: string;
+    pembayaran?: Pembayaran[];
 }
 
 interface Pelanggan {
@@ -76,7 +88,13 @@ export default function DetailPelanggan({ title, pelanggan }: DetailPelangganPro
         }).format(amount);
     };
 
-    const totalTagihanBelumBayar = pelanggan.tagihan.filter((t) => t.status === 'belum_bayar').reduce((sum, t) => sum + t.total_biaya, 0);
+    const totalTagihanBelumBayar = pelanggan.tagihan
+        .filter((t) => t.status === 'belum_bayar')
+        .reduce((sum, t) => {
+            const pembayaran = t.pembayaran?.[0];
+            const biayaAdmin = pembayaran?.metode_pembayaran?.biaya_admin || 0;
+            return sum + t.total_biaya + biayaAdmin;
+        }, 0);
 
     const totalPenggunaanBulanIni = pelanggan.penggunaan.length > 0 ? pelanggan.penggunaan[0].jumlah_kwh : 0;
 
@@ -169,7 +187,7 @@ export default function DetailPelanggan({ title, pelanggan }: DetailPelangganPro
                 </div>
 
                 {/* Statistik */}
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
                     <Card className="border-0 shadow-lg">
                         <CardContent className="p-6">
                             <div className="flex items-center justify-between">
@@ -188,7 +206,7 @@ export default function DetailPelanggan({ title, pelanggan }: DetailPelangganPro
                         <CardContent className="p-6">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm text-gray-600">Total Tagihan Belum Bayar</p>
+                                    <p className="text-sm text-gray-600">Tagihan Belum Bayar</p>
                                     <p className="text-2xl font-bold text-red-600">{formatCurrency(totalTagihanBelumBayar)}</p>
                                 </div>
                                 <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-red-100">
@@ -207,6 +225,29 @@ export default function DetailPelanggan({ title, pelanggan }: DetailPelangganPro
                                 </div>
                                 <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-100">
                                     <Calendar className="h-6 w-6 text-green-600" />
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    <Card className="border-0 shadow-lg">
+                        <CardContent className="p-6">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-sm text-gray-600">Total Pembayaran</p>
+                                    <p className="text-2xl font-bold text-purple-600">
+                                        {formatCurrency(
+                                            pelanggan.tagihan
+                                                .filter((t) => t.status === 'lunas')
+                                                .reduce((sum, t) => {
+                                                    const pembayaran = t.pembayaran?.[0];
+                                                    return sum + (pembayaran?.total_bayar || t.total_biaya);
+                                                }, 0),
+                                        )}
+                                    </p>
+                                </div>
+                                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100">
+                                    <CreditCard className="h-6 w-6 text-purple-600" />
                                 </div>
                             </div>
                         </CardContent>
@@ -271,7 +312,9 @@ export default function DetailPelanggan({ title, pelanggan }: DetailPelangganPro
                                         <TableHead className="font-semibold text-gray-700">Periode</TableHead>
                                         <TableHead className="font-semibold text-gray-700">Penggunaan</TableHead>
                                         <TableHead className="font-semibold text-gray-700">Tarif/kWh</TableHead>
-                                        <TableHead className="font-semibold text-gray-700">Total Biaya</TableHead>
+                                        <TableHead className="font-semibold text-gray-700">Biaya Listrik</TableHead>
+                                        <TableHead className="font-semibold text-gray-700">Biaya Admin</TableHead>
+                                        <TableHead className="font-semibold text-gray-700">Total Bayar</TableHead>
                                         <TableHead className="font-semibold text-gray-700">Status</TableHead>
                                         <TableHead className="font-semibold text-gray-700">Tanggal Bayar</TableHead>
                                     </TableRow>
@@ -279,25 +322,37 @@ export default function DetailPelanggan({ title, pelanggan }: DetailPelangganPro
                                 <TableBody>
                                     {pelanggan.tagihan.length === 0 ? (
                                         <TableRow>
-                                            <TableCell colSpan={6} className="py-8 text-center text-gray-500">
+                                            <TableCell colSpan={8} className="py-8 text-center text-gray-500">
                                                 Belum ada data tagihan
                                             </TableCell>
                                         </TableRow>
                                     ) : (
-                                        pelanggan.tagihan.map((tagihan) => (
-                                            <TableRow key={tagihan.id} className="border-gray-100">
-                                                <TableCell className="font-medium">
-                                                    {tagihan.bulan} {tagihan.tahun}
-                                                </TableCell>
-                                                <TableCell className="font-semibold text-blue-600">{tagihan.jumlah_kwh} kWh</TableCell>
-                                                <TableCell className="font-mono">{formatCurrency(tagihan.tarif_per_kwh)}</TableCell>
-                                                <TableCell className="font-semibold text-green-600">{formatCurrency(tagihan.total_biaya)}</TableCell>
-                                                <TableCell>{getStatusBadge(tagihan.status)}</TableCell>
-                                                <TableCell className="text-gray-600">
-                                                    {tagihan.tanggal_bayar ? new Date(tagihan.tanggal_bayar).toLocaleDateString('id-ID') : '-'}
-                                                </TableCell>
-                                            </TableRow>
-                                        ))
+                                        pelanggan.tagihan.map((tagihan) => {
+                                            const pembayaran = tagihan.pembayaran?.[0]; // Ambil pembayaran pertama (jika ada)
+                                            const biayaAdmin = pembayaran?.metode_pembayaran?.biaya_admin || 0;
+                                            const totalBayar = pembayaran?.total_bayar || tagihan.total_biaya;
+
+                                            return (
+                                                <TableRow key={tagihan.id} className="border-gray-100">
+                                                    <TableCell className="font-medium">
+                                                        {tagihan.bulan} {tagihan.tahun}
+                                                    </TableCell>
+                                                    <TableCell className="font-semibold text-blue-600">{tagihan.jumlah_kwh} kWh</TableCell>
+                                                    <TableCell className="font-mono">{formatCurrency(tagihan.tarif_per_kwh)}</TableCell>
+                                                    <TableCell className="font-semibold text-green-600">
+                                                        {formatCurrency(tagihan.total_biaya)}
+                                                    </TableCell>
+                                                    <TableCell className="font-semibold text-orange-600">
+                                                        {biayaAdmin > 0 ? formatCurrency(biayaAdmin) : '-'}
+                                                    </TableCell>
+                                                    <TableCell className="font-bold text-blue-600">{formatCurrency(totalBayar)}</TableCell>
+                                                    <TableCell>{getStatusBadge(tagihan.status)}</TableCell>
+                                                    <TableCell className="text-gray-600">
+                                                        {tagihan.tanggal_bayar ? new Date(tagihan.tanggal_bayar).toLocaleDateString('id-ID') : '-'}
+                                                    </TableCell>
+                                                </TableRow>
+                                            );
+                                        })
                                     )}
                                 </TableBody>
                             </Table>
