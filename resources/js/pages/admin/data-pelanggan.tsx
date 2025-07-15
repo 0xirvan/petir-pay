@@ -333,9 +333,7 @@ export default function DataPelanggan({ title, pelanggan, tarifs, filters, stats
                 {/* Pelanggan Table */}
                 <Card className="border-0 shadow-lg">
                     <CardHeader>
-                        <CardTitle className="text-xl font-semibold text-gray-900">
-                            Daftar Pelanggan ({pelanggan.from}-{pelanggan.to} dari {pelanggan.total})
-                        </CardTitle>
+                        <CardTitle className="text-xl font-semibold text-gray-900">Daftar Pelanggan</CardTitle>
                     </CardHeader>
                     <CardContent className="p-0">
                         <div className="overflow-x-auto">

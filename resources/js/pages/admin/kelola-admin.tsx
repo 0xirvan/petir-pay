@@ -229,9 +229,7 @@ export default function KelolaAdmin({ adminList, title, statistics, filters }: K
                 {/* Admin Table */}
                 <Card className="border-0 shadow-lg">
                     <CardHeader>
-                        <CardTitle className="text-xl font-semibold text-gray-900">
-                            Daftar Admin & Petugas ({adminListState.from}-{adminListState.to} dari {adminListState.total})
-                        </CardTitle>
+                        <CardTitle className="text-xl font-semibold text-gray-900">Daftar Admin & Petugas</CardTitle>
                     </CardHeader>
                     <CardContent className="p-0">
                         <div className="overflow-x-auto">
@@ -366,7 +364,7 @@ export default function KelolaAdmin({ adminList, title, statistics, filters }: K
                         {adminListState.last_page > 1 && (
                             <div className="flex items-center justify-between border-t border-gray-200 px-6 py-4">
                                 <div className="text-sm text-gray-700">
-                                    Menampilkan {adminListState.from} sampai {adminListState.to}
+                                    Menampilkan {adminListState.from} sampai {adminListState.to} dari {adminListState.total} admin
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     {/* Previous Button */}
