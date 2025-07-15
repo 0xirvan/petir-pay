@@ -81,19 +81,21 @@ export default function DetailPelanggan({ title, pelanggan }: DetailPelangganPro
     };
 
     const formatCurrency = (amount: number) => {
+        // Pastikan amount adalah number yang valid
+        const validAmount = typeof amount === 'number' && !isNaN(amount) ? amount : 0;
         return new Intl.NumberFormat('id-ID', {
             style: 'currency',
             currency: 'IDR',
             minimumFractionDigits: 0,
-        }).format(amount);
+        }).format(validAmount);
     };
 
     const totalTagihanBelumBayar = pelanggan.tagihan
         .filter((t) => t.status === 'belum_bayar')
         .reduce((sum, t) => {
-            const pembayaran = t.pembayaran?.[0];
-            const biayaAdmin = pembayaran?.metode_pembayaran?.biaya_admin || 0;
-            return sum + t.total_biaya + biayaAdmin;
+            // Untuk tagihan belum bayar, kita hanya hitung biaya listrik tanpa biaya admin
+            // karena biaya admin baru ditentukan saat memilih metode pembayaran
+            return sum + t.total_biaya;
         }, 0);
 
     const totalPenggunaanBulanIni = pelanggan.penggunaan.length > 0 ? pelanggan.penggunaan[0].jumlah_kwh : 0;
@@ -241,8 +243,13 @@ export default function DetailPelanggan({ title, pelanggan }: DetailPelangganPro
                                                 .filter((t) => t.status === 'lunas')
                                                 .reduce((sum, t) => {
                                                     const pembayaran = t.pembayaran?.[0];
-                                                    return sum + (pembayaran?.total_bayar || t.total_biaya);
-                                                }, 0),
+                                                    const totalBayar = pembayaran?.total_bayar;
+                                                    // Pastikan nilai numerik yang valid
+                                                    const validAmount = typeof totalBayar === 'number' && !isNaN(totalBayar) 
+                                                        ? totalBayar 
+                                                        : t.total_biaya;
+                                                    return sum + validAmount;
+                                                }, 0)
                                         )}
                                     </p>
                                 </div>
@@ -330,7 +337,12 @@ export default function DetailPelanggan({ title, pelanggan }: DetailPelangganPro
                                         pelanggan.tagihan.map((tagihan) => {
                                             const pembayaran = tagihan.pembayaran?.[0]; // Ambil pembayaran pertama (jika ada)
                                             const biayaAdmin = pembayaran?.metode_pembayaran?.biaya_admin || 0;
-                                            const totalBayar = pembayaran?.total_bayar || tagihan.total_biaya;
+                                            
+                                            // Untuk tagihan yang sudah dibayar, gunakan total_bayar dari pembayaran
+                                            // Untuk tagihan belum bayar, gunakan total_biaya saja
+                                            const totalBayar = tagihan.status === 'lunas' && pembayaran 
+                                                ? pembayaran.total_bayar 
+                                                : tagihan.total_biaya; // Belum bayar hanya tampilkan biaya listrik
 
                                             return (
                                                 <TableRow key={tagihan.id} className="border-gray-100">
@@ -343,9 +355,13 @@ export default function DetailPelanggan({ title, pelanggan }: DetailPelangganPro
                                                         {formatCurrency(tagihan.total_biaya)}
                                                     </TableCell>
                                                     <TableCell className="font-semibold text-orange-600">
-                                                        {biayaAdmin > 0 ? formatCurrency(biayaAdmin) : '-'}
+                                                        {tagihan.status === 'lunas' && biayaAdmin > 0 ? formatCurrency(biayaAdmin) : 
+                                                         tagihan.status === 'belum_bayar' ? 'Belum ditentukan' : '-'}
                                                     </TableCell>
-                                                    <TableCell className="font-bold text-blue-600">{formatCurrency(totalBayar)}</TableCell>
+                                                    <TableCell className="font-bold text-blue-600">
+                                                        {tagihan.status === 'lunas' ? formatCurrency(totalBayar) : 
+                                                         `${formatCurrency(tagihan.total_biaya)} + admin`}
+                                                    </TableCell>
                                                     <TableCell>{getStatusBadge(tagihan.status)}</TableCell>
                                                     <TableCell className="text-gray-600">
                                                         {tagihan.tanggal_bayar ? new Date(tagihan.tanggal_bayar).toLocaleDateString('id-ID') : '-'}
