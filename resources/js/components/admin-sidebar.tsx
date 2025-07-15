@@ -28,7 +28,7 @@ export default function AdminSidebar({ sidebarOpen, setSidebarOpen, adminName = 
 
     return (
         <aside
-            className={`fixed top-16 bottom-0 left-0 z-50 w-64 transform bg-white/95 shadow-lg backdrop-blur-md transition-transform duration-300 ease-in-out lg:fixed lg:z-50 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'} flex flex-col`}
+            className={`fixed inset-y-0 left-0 z-40 w-64 transform bg-white/95 shadow-lg backdrop-blur-md transition-transform duration-300 ease-in-out lg:fixed lg:top-[4.5rem] lg:z-40 lg:h-[calc(100vh-4.5rem)] ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'} flex flex-col`}
         >
             {/* Sidebar Header - Mobile Only */}
             <div className="flex items-center justify-between border-b border-gray-200 p-4 lg:hidden">
@@ -69,7 +69,7 @@ export default function AdminSidebar({ sidebarOpen, setSidebarOpen, adminName = 
             </nav>
 
             {/* Sidebar Footer */}
-            <div className="border-t border-gray-200 p-4">
+            <div className="flex-shrink-0 border-t border-gray-200 p-4">
                 <div className="flex items-center space-x-3 rounded-lg bg-gray-50 p-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-blue-700">
                         <Avatar className="h-10 w-10">
