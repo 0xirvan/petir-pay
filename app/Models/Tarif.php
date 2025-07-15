@@ -14,7 +14,6 @@ class Tarif extends Model
         'deskripsi',
     ];
 
-
     /**
      * Relasi ke banyak pelanggan
      */

@@ -58,4 +58,20 @@ class Pelanggan extends Authenticatable
     {
         return $this->belongsTo(Tarif::class, 'id_tarif');
     }
+
+    /**
+     * Relasi ke model Penggunaan
+     */
+    public function penggunaan()
+    {
+        return $this->hasMany(Penggunaan::class, 'id_pelanggan');
+    }
+
+    /**
+     * Relasi ke model Tagihan
+     */
+    public function tagihan()
+    {
+        return $this->hasMany(Tagihan::class, 'id_pelanggan');
+    }
 }

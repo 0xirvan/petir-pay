@@ -17,6 +17,18 @@ class Penggunaan extends Model
         'meter_akhir',
     ];
 
+    protected $appends = [
+        'jumlah_kwh',
+    ];
+
+    /**
+     * Accessor untuk menghitung jumlah kWh
+     */
+    public function getJumlahKwhAttribute(): int
+    {
+        return max(0, $this->meter_akhir - $this->meter_awal);
+    }
+
     public function pelanggan(): BelongsTo
     {
         return $this->belongsTo(Pelanggan::class, 'id_pelanggan');

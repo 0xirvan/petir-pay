@@ -11,26 +11,40 @@ use Inertia\Inertia;
 
 class ManageAdminController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $admins = User::whereIn('role', ['administrator', 'petugas'])
-            ->orderBy('created_at', 'desc')
-            ->get()
-            ->map(function ($admin) {
-                return [
-                    'id' => $admin->id,
-                    'name' => $admin->name,
-                    'email' => $admin->email,
-                    'role' => $admin->role,
-                    'photo_profile_url' => $admin->photo_profile_url,
-                    'created_at' => $admin->created_at->format('Y-m-d'),
-                    'last_login' => $admin->updated_at->format('Y-m-d H:i'),
-                ];
-            });
+        $search = $request->get('search');
+        $perPage = $request->get('per_page', 10);
+
+        $query = User::whereIn('role', ['administrator', 'petugas'])
+            ->when($search, function ($query, $search) {
+                return $query->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
+            })
+            ->orderBy('created_at', 'desc');
+
+        $admins = $query->paginate($perPage);
+
+
+        $admins->getCollection()->transform(function ($admin) {
+            return [
+                'id' => $admin->id,
+                'name' => $admin->name,
+                'email' => $admin->email,
+                'role' => $admin->role,
+                'photo_profile_url' => $admin->photo_profile_url,
+                'created_at' => $admin->created_at->format('Y-m-d'),
+                'last_login' => $admin->updated_at->format('Y-m-d H:i'),
+            ];
+        });
 
         return Inertia::render('admin/kelola-admin', [
             'title' => 'Kelola Admin',
-            'adminList' => $admins
+            'adminList' => $admins,
+            'filters' => [
+                'search' => $search,
+                'per_page' => $perPage,
+            ],
         ]);
     }
 

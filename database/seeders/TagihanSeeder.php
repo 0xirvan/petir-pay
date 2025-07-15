@@ -27,6 +27,13 @@ class TagihanSeeder extends Seeder
             $kwhTerpakai = $penggunaan->meter_akhir - $penggunaan->meter_awal;
             $kwhTerpakai = max(0, $kwhTerpakai);
 
+            $status = $this->getRandomStatus();
+            $tanggalBayar = null;
+
+            // Jika status lunas, berikan tanggal bayar random
+            if ($status === 'lunas') {
+                $tanggalBayar = $penggunaan->created_at->addDays(rand(1, 30));
+            }
 
             Tagihan::create([
                 'id_pelanggan' => $pelanggan->id,
@@ -34,7 +41,8 @@ class TagihanSeeder extends Seeder
                 'bulan' => $penggunaan->bulan,
                 'tahun' => $penggunaan->tahun,
                 'jumlah_meter' => $kwhTerpakai,
-                'status' => $this->getRandomStatus(),
+                'status' => $status,
+                'tanggal_bayar' => $tanggalBayar,
                 'created_at' => $penggunaan->created_at,
                 'updated_at' => $penggunaan->updated_at,
             ]);

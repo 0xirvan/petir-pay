@@ -4,10 +4,12 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AdminLayout from '@/layouts/admin-layout';
-import { usePage } from '@inertiajs/react';
-import { Edit, Shield, Trash2, User, Users } from 'lucide-react';
+import { router, usePage } from '@inertiajs/react';
+import { Edit, Search, Shield, Trash2, User, Users } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 interface Admin {
@@ -20,9 +22,23 @@ interface Admin {
     last_login: string;
 }
 
+interface PaginationData {
+    data: Admin[];
+    current_page: number;
+    last_page: number;
+    per_page: number;
+    total: number;
+    from: number;
+    to: number;
+}
+
 interface KelolaAdminProps {
     title: string;
-    adminList: Admin[];
+    adminList: PaginationData;
+    filters?: {
+        search?: string;
+        per_page?: number;
+    };
 }
 
 const getRoleBadge = (role: string) => {
@@ -44,13 +60,19 @@ const getInitials = (name: string) => {
         .join('');
 };
 
-export default function KelolaAdmin({ adminList, title }: KelolaAdminProps) {
+export default function KelolaAdmin({ adminList, title, filters }: KelolaAdminProps) {
     const { props } = usePage<{ adminBaru?: Admin }>();
     const [adminListState, setAdminListState] = useState(adminList);
+    const [search, setSearch] = useState(filters?.search || '');
+    const [perPage, setPerPage] = useState(filters?.per_page || 10);
 
     useEffect(() => {
         if (props.adminBaru) {
-            setAdminListState((prev) => [props.adminBaru!, ...prev]);
+            setAdminListState((prev) => ({
+                ...prev,
+                data: [props.adminBaru!, ...prev.data],
+                total: prev.total + 1,
+            }));
         }
     }, [props.adminBaru]);
 
@@ -58,8 +80,25 @@ export default function KelolaAdmin({ adminList, title }: KelolaAdminProps) {
         setAdminListState(adminList);
     }, [adminList]);
 
-    const totalAdministrator = adminListState.filter((admin) => admin.role === 'administrator').length;
-    const totalPetugas = adminListState.filter((admin) => admin.role === 'petugas').length;
+    const totalAdministrator = adminListState.data.filter((admin) => admin.role === 'administrator').length;
+    const totalPetugas = adminListState.data.filter((admin) => admin.role === 'petugas').length;
+
+    // Handle search
+    const handleSearch = (e: React.FormEvent) => {
+        e.preventDefault();
+        router.get(route('admin.kelola-admin'), {
+            search: search,
+            per_page: perPage,
+        });
+    };
+
+    // Handle per page change
+    const handlePerPageChange = (value: string) => {
+        router.get(route('admin.kelola-admin'), {
+            search: search,
+            per_page: parseInt(value),
+        });
+    };
 
     return (
         <AdminLayout title={title}>
@@ -135,7 +174,7 @@ export default function KelolaAdmin({ adminList, title }: KelolaAdminProps) {
                             <div className="flex items-center justify-between">
                                 <div>
                                     <p className="text-sm text-gray-600">Total Users</p>
-                                    <p className="text-2xl font-bold text-green-600">{adminListState.length}</p>
+                                    <p className="text-2xl font-bold text-green-600">{adminListState.total}</p>
                                 </div>
                                 <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-100">
                                     <Users className="h-6 w-6 text-green-600" />
@@ -145,10 +184,52 @@ export default function KelolaAdmin({ adminList, title }: KelolaAdminProps) {
                     </Card>
                 </div>
 
+                {/* Search and Filter */}
+                <Card className="border-0 shadow-lg">
+                    <CardContent className="p-6">
+                        <form onSubmit={handleSearch} className="flex flex-col gap-4 sm:flex-row sm:items-end">
+                            <div className="flex-1">
+                                <label className="mb-2 block text-sm font-medium text-gray-700">Cari Admin</label>
+                                <div className="relative">
+                                    <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                                    <Input
+                                        type="text"
+                                        placeholder="Cari nama atau email admin..."
+                                        value={search}
+                                        onChange={(e) => setSearch(e.target.value)}
+                                        className="pl-10"
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <label className="mb-2 block text-sm font-medium text-gray-700">Per Halaman</label>
+                                <Select value={perPage.toString()} onValueChange={handlePerPageChange}>
+                                    <SelectTrigger className="w-24">
+                                        <SelectValue />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="5">5</SelectItem>
+                                        <SelectItem value="10">10</SelectItem>
+                                        <SelectItem value="25">25</SelectItem>
+                                        <SelectItem value="50">50</SelectItem>
+                                        <SelectItem value="100">100</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <Button type="submit" className="flex items-center space-x-2">
+                                <Search className="h-4 w-4" />
+                                <span>Cari</span>
+                            </Button>
+                        </form>
+                    </CardContent>
+                </Card>
+
                 {/* Admin Table */}
                 <Card className="border-0 shadow-lg">
                     <CardHeader>
-                        <CardTitle className="text-xl font-semibold text-gray-900">Daftar Admin & Petugas</CardTitle>
+                        <CardTitle className="text-xl font-semibold text-gray-900">
+                            Daftar Admin & Petugas ({adminListState.from}-{adminListState.to} dari {adminListState.total})
+                        </CardTitle>
                     </CardHeader>
                     <CardContent className="p-0">
                         <div className="overflow-x-auto">
@@ -164,14 +245,14 @@ export default function KelolaAdmin({ adminList, title }: KelolaAdminProps) {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {adminListState.length === 0 ? (
+                                    {adminListState.data.length === 0 ? (
                                         <TableRow>
                                             <TableCell colSpan={6} className="py-8 text-center text-gray-500">
                                                 Belum ada data admin
                                             </TableCell>
                                         </TableRow>
                                     ) : (
-                                        adminListState.map((admin) => (
+                                        adminListState.data.map((admin) => (
                                             <TableRow key={admin.id} className="border-gray-100 hover:bg-gray-50">
                                                 <TableCell>
                                                     <div className="flex items-center space-x-3">
@@ -278,6 +359,101 @@ export default function KelolaAdmin({ adminList, title }: KelolaAdminProps) {
                                 </TableBody>
                             </Table>
                         </div>
+
+                        {/* Pagination */}
+                        {adminListState.last_page > 1 && (
+                            <div className="flex items-center justify-between border-t border-gray-200 px-6 py-4">
+                                <div className="text-sm text-gray-700">
+                                    Menampilkan {adminListState.from} sampai {adminListState.to} dari {adminListState.total} hasil
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    {/* Previous Button */}
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        disabled={adminListState.current_page === 1}
+                                        onClick={() =>
+                                            router.get(route('admin.kelola-admin'), {
+                                                search: search,
+                                                per_page: perPage,
+                                                page: adminListState.current_page - 1,
+                                            })
+                                        }
+                                    >
+                                        ← Sebelumnya
+                                    </Button>
+
+                                    {/* Page Numbers */}
+                                    <div className="flex space-x-1">
+                                        {(() => {
+                                            const currentPage = adminListState.current_page;
+                                            const lastPage = adminListState.last_page;
+                                            const pages = [];
+
+                                            // Always show first page
+                                            if (currentPage > 3) {
+                                                pages.push(1);
+                                                if (currentPage > 4) {
+                                                    pages.push('...');
+                                                }
+                                            }
+
+                                            // Show pages around current page
+                                            for (let i = Math.max(1, currentPage - 2); i <= Math.min(lastPage, currentPage + 2); i++) {
+                                                pages.push(i);
+                                            }
+
+                                            // Always show last page
+                                            if (currentPage < lastPage - 2) {
+                                                if (currentPage < lastPage - 3) {
+                                                    pages.push('...');
+                                                }
+                                                pages.push(lastPage);
+                                            }
+
+                                            return pages.map((page, index) =>
+                                                page === '...' ? (
+                                                    <span key={index} className="px-3 py-1 text-gray-500">
+                                                        ...
+                                                    </span>
+                                                ) : (
+                                                    <Button
+                                                        key={page}
+                                                        variant={page === currentPage ? 'default' : 'outline'}
+                                                        size="sm"
+                                                        onClick={() =>
+                                                            router.get(route('admin.kelola-admin'), {
+                                                                search: search,
+                                                                per_page: perPage,
+                                                                page: page,
+                                                            })
+                                                        }
+                                                    >
+                                                        {page}
+                                                    </Button>
+                                                ),
+                                            );
+                                        })()}
+                                    </div>
+
+                                    {/* Next Button */}
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        disabled={adminListState.current_page === adminListState.last_page}
+                                        onClick={() =>
+                                            router.get(route('admin.kelola-admin'), {
+                                                search: search,
+                                                per_page: perPage,
+                                                page: adminListState.current_page + 1,
+                                            })
+                                        }
+                                    >
+                                        Selanjutnya →
+                                    </Button>
+                                </div>
+                            </div>
+                        )}
                     </CardContent>
                 </Card>
             </div>
