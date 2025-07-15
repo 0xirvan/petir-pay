@@ -35,14 +35,26 @@ export default function AdminLayout(props: AdminLayoutProps) {
             <Head title={props.title ?? name} />
             <div className="flex min-h-screen flex-col bg-gradient-to-br from-blue-50 to-indigo-100">
                 {/* Header */}
-                <AdminHeader sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} adminName={auth.user.name} adminRole={auth.user.role} />
+                <AdminHeader
+                    sidebarOpen={sidebarOpen}
+                    setSidebarOpen={setSidebarOpen}
+                    adminName={auth.user.name}
+                    adminRole={auth.user.role}
+                    adminPhoto={auth.user.photo_profile_url}
+                />
 
                 <div className="relative flex flex-1">
                     {/* Mobile Overlay */}
                     {sidebarOpen && <div className="bg-opacity-50 fixed inset-0 z-40 bg-black lg:hidden" onClick={() => setSidebarOpen(false)} />}
 
                     {/* Sidebar */}
-                    <AdminSidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} adminName={auth.user.name} adminRole={auth.user.role} />
+                    <AdminSidebar
+                        sidebarOpen={sidebarOpen}
+                        setSidebarOpen={setSidebarOpen}
+                        adminName={auth.user.name}
+                        adminRole={auth.user.role}
+                        adminPhoto={auth.user.photo_profile_url}
+                    />
 
                     {/* Main Content */}
                     <AnimatePresence mode="wait">

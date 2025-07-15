@@ -1,6 +1,7 @@
 import { router } from '@inertiajs/react';
 import { LogOut, Menu, User, Zap } from 'lucide-react';
 import { useState } from 'react';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Button } from './ui/button';
 
 interface AdminHeaderProps {
@@ -8,9 +9,10 @@ interface AdminHeaderProps {
     setSidebarOpen: (open: boolean) => void;
     adminName: string;
     adminRole: string;
+    adminPhoto: string;
 }
 
-export default function AdminHeader({ sidebarOpen, setSidebarOpen, adminName = 'Jhon Doe', adminRole = 'Damn' }: AdminHeaderProps) {
+export default function AdminHeader({ sidebarOpen, setSidebarOpen, adminName = 'Jhon Doe', adminRole = 'Damn', adminPhoto }: AdminHeaderProps) {
     const [isLoggingOut, setIsLoggingOut] = useState(false);
 
     const handleLogout = () => {
@@ -67,9 +69,12 @@ export default function AdminHeader({ sidebarOpen, setSidebarOpen, adminName = '
                                 <p className="text-sm font-medium text-gray-900">{adminName}</p>
                                 <p className="text-xs text-gray-500">{adminRole.toLocaleUpperCase()}</p>
                             </div>
-                            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-blue-700">
-                                <User className="h-5 w-5 text-white" />
-                            </div>
+                            <Avatar className="h-10 w-10">
+                                <AvatarImage src={adminPhoto} alt={adminName} />
+                                <AvatarFallback className="bg-gradient-to-br from-blue-600 to-blue-700 text-white">
+                                    <User className="h-5 w-5" />
+                                </AvatarFallback>
+                            </Avatar>
                         </div>
                         <Button
                             variant="ghost"

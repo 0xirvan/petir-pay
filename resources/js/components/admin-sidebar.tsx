@@ -1,6 +1,7 @@
 import { SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 import { Calculator, CreditCard, Home, Receipt, Settings, User, Users, X, Zap } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Button } from './ui/button';
 
 interface AdminSidebarProps {
@@ -8,9 +9,10 @@ interface AdminSidebarProps {
     setSidebarOpen: (open: boolean) => void;
     adminName: string;
     adminRole: string;
+    adminPhoto: string;
 }
 
-export default function AdminSidebar({ sidebarOpen, setSidebarOpen, adminName = 'Jhon Doe', adminRole = 'Damn' }: AdminSidebarProps) {
+export default function AdminSidebar({ sidebarOpen, setSidebarOpen, adminName = 'Jhon Doe', adminRole = 'Damn', adminPhoto }: AdminSidebarProps) {
     const { auth } = usePage<SharedData>().props;
     const role = auth.user.role;
 
@@ -70,7 +72,12 @@ export default function AdminSidebar({ sidebarOpen, setSidebarOpen, adminName = 
             <div className="border-t border-gray-200 p-4">
                 <div className="flex items-center space-x-3 rounded-lg bg-gray-50 p-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-blue-700">
-                        <User className="h-5 w-5 text-white" />
+                        <Avatar className="h-10 w-10">
+                            <AvatarImage src={adminPhoto} alt={adminName} />
+                            <AvatarFallback className="bg-gradient-to-br from-blue-600 to-blue-700 text-white">
+                                <User className="h-5 w-5" />
+                            </AvatarFallback>
+                        </Avatar>
                     </div>
                     <div className="min-w-0 flex-1">
                         <p className="truncate text-sm font-medium text-gray-900">{adminName}</p>

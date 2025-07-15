@@ -20,6 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'photo_profile',
         'password',
         'role',
     ];
@@ -33,6 +34,11 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    protected $appends = [
+        'photo_profile_url'
+    ];
+
 
     /**
      * Get the attributes that should be cast.
@@ -70,4 +76,22 @@ class User extends Authenticatable
     {
         return $this->role === $role;
     }
+
+    /**
+     * Get the full URL for the user's profile photo
+     */
+    public function getPhotoProfileUrlAttribute(): string
+    {
+        if ($this->photo_profile) {
+            return asset('storage/' . $this->photo_profile);
+        }
+
+        $initials = collect(explode(' ', $this->name))
+            ->map(fn($word) => strtoupper(substr($word, 0, 1)))
+            ->take(2)
+            ->implode('');
+
+        return "https://ui-avatars.com/api/?name={$initials}&background=random&color=fff&size=200";
+    }
+
 }
