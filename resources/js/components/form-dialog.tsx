@@ -56,7 +56,7 @@ export function FormDialog({
         {},
     );
 
-    const { data, setData, post, put, patch, processing, reset } = useForm<Record<string, string>>(defaultFormData);
+    const { data, setData, post, put, patch, processing, reset, errors } = useForm<Record<string, string>>(defaultFormData);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -80,6 +80,7 @@ export function FormDialog({
                         reset();
                     }
                 },
+                onError: () => {},
             });
         }
     };
@@ -119,7 +120,7 @@ export function FormDialog({
                                     onValueChange={(value) => handleInputChange(field.id, value)}
                                     required={field.required}
                                 >
-                                    <SelectTrigger>
+                                    <SelectTrigger className={errors[field.id] ? 'border-red-500' : ''}>
                                         <SelectValue placeholder={field.placeholder || 'Pilih option'} />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -138,8 +139,10 @@ export function FormDialog({
                                     value={data[field.id] || ''}
                                     onChange={(e) => handleInputChange(field.id, e.target.value)}
                                     required={field.required}
+                                    className={errors[field.id] ? 'border-red-500' : ''}
                                 />
                             )}
+                            {errors[field.id] && <p className="mt-1 text-sm text-red-600">{errors[field.id]}</p>}
                         </div>
                     ))}
                     <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700" disabled={processing}>
