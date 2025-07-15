@@ -1,13 +1,5 @@
 import { Button } from '@/components/ui/button';
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { router } from '@inertiajs/react';
 import { Trash2 } from 'lucide-react';
 import { useState } from 'react';
@@ -42,7 +34,7 @@ export function DeleteDialog({
 
     const handleDelete = () => {
         setIsDeleting(true);
-        
+
         if (method === 'delete') {
             router.delete(action, {
                 preserveScroll: true,
@@ -60,21 +52,25 @@ export function DeleteDialog({
                 },
             });
         } else {
-            router.post(action, {}, {
-                preserveScroll: true,
-                onSuccess: () => {
-                    setOpen(false);
-                    setIsDeleting(false);
-                    onSuccess?.();
+            router.post(
+                action,
+                {},
+                {
+                    preserveScroll: true,
+                    onSuccess: () => {
+                        setOpen(false);
+                        setIsDeleting(false);
+                        onSuccess?.();
+                    },
+                    onError: () => {
+                        setIsDeleting(false);
+                        onError?.();
+                    },
+                    onFinish: () => {
+                        setIsDeleting(false);
+                    },
                 },
-                onError: () => {
-                    setIsDeleting(false);
-                    onError?.();
-                },
-                onFinish: () => {
-                    setIsDeleting(false);
-                },
-            });
+            );
         }
     };
 
@@ -86,33 +82,20 @@ export function DeleteDialog({
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-                {trigger || defaultTrigger}
-            </DialogTrigger>
+            <DialogTrigger asChild>{trigger || defaultTrigger}</DialogTrigger>
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-2">
                         <Trash2 className="h-5 w-5 text-red-500" />
                         {title}
                     </DialogTitle>
-                    <DialogDescription className="text-left">
-                        {defaultDescription}
-                    </DialogDescription>
+                    <DialogDescription className="text-left">{defaultDescription}</DialogDescription>
                 </DialogHeader>
                 <DialogFooter className="flex gap-2">
-                    <Button
-                        variant="outline"
-                        onClick={() => setOpen(false)}
-                        disabled={isDeleting}
-                    >
+                    <Button variant="outline" onClick={() => setOpen(false)} disabled={isDeleting}>
                         Batal
                     </Button>
-                    <Button
-                        variant="destructive"
-                        onClick={handleDelete}
-                        disabled={isDeleting}
-                        className="bg-red-600 hover:bg-red-700"
-                    >
+                    <Button variant="destructive" onClick={handleDelete} disabled={isDeleting} className="bg-red-600 hover:bg-red-700">
                         {isDeleting ? 'Menghapus...' : 'Hapus'}
                     </Button>
                 </DialogFooter>
