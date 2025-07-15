@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="40" viewBox="0 0 80 40">
+    <rect width="80" height="40" fill="#003d82" rx="4" />
+    <text x="40" y="18" font-family="Arial, sans-serif" font-size="10" font-weight="bold"
+        text-anchor="middle" fill="white">MANDIRI</text>
+    <text x="40" y="30" font-family="Arial, sans-serif" font-size="8" text-anchor="middle"
+        fill="#ffd700">BANK</text>
+</svg>
