@@ -28,7 +28,7 @@ export default function AdminSidebar({ sidebarOpen, setSidebarOpen, adminName = 
 
     return (
         <aside
-            className={`fixed inset-y-0 left-0 z-50 w-64 transform bg-white/95 shadow-lg backdrop-blur-md transition-transform duration-300 ease-in-out lg:static lg:z-auto ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'} flex flex-col`}
+            className={`fixed top-16 bottom-0 left-0 z-50 w-64 transform bg-white/95 shadow-lg backdrop-blur-md transition-transform duration-300 ease-in-out lg:fixed lg:z-50 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'} flex flex-col`}
         >
             {/* Sidebar Header - Mobile Only */}
             <div className="flex items-center justify-between border-b border-gray-200 p-4 lg:hidden">

@@ -64,7 +64,7 @@ export default function AdminLayout(props: AdminLayoutProps) {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -10 }}
                             transition={{ duration: 0.3 }}
-                            className="min-w-0 flex-1 overflow-auto"
+                            className="min-w-0 flex-1 overflow-auto lg:ml-64"
                         >
                             <main className="min-w-0 flex-1 overflow-auto">
                                 <div className="p-3 sm:p-4 lg:p-6">{props.children}</div>
