@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
+import ResponsivePagination from '@/components/ui/responsive-pagination';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AdminLayout from '@/layouts/admin-layout';
@@ -458,99 +459,7 @@ export default function DataPelanggan({ title, pelanggan, tarifs, filters, stats
                         </div>
 
                         {/* Pagination */}
-                        {pelanggan.last_page > 1 && (
-                            <div className="flex items-center justify-between border-t border-gray-200 px-6 py-4">
-                                <div className="text-sm text-gray-700">
-                                    Menampilkan {pelanggan.from} sampai {pelanggan.to} dari {pelanggan.total} hasil
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                    {/* Previous Button */}
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        disabled={pelanggan.current_page === 1}
-                                        onClick={() =>
-                                            router.get(route('admin.data-pelanggan'), {
-                                                search: search,
-                                                per_page: perPage,
-                                                page: pelanggan.current_page - 1,
-                                            })
-                                        }
-                                    >
-                                        ← Sebelumnya
-                                    </Button>
-
-                                    {/* Page Numbers */}
-                                    <div className="flex space-x-1">
-                                        {(() => {
-                                            const currentPage = pelanggan.current_page;
-                                            const lastPage = pelanggan.last_page;
-                                            const pages = [];
-
-                                            // Always show first page
-                                            if (currentPage > 3) {
-                                                pages.push(1);
-                                                if (currentPage > 4) {
-                                                    pages.push('...');
-                                                }
-                                            }
-
-                                            // Show pages around current page
-                                            for (let i = Math.max(1, currentPage - 2); i <= Math.min(lastPage, currentPage + 2); i++) {
-                                                pages.push(i);
-                                            }
-
-                                            // Always show last page
-                                            if (currentPage < lastPage - 2) {
-                                                if (currentPage < lastPage - 3) {
-                                                    pages.push('...');
-                                                }
-                                                pages.push(lastPage);
-                                            }
-
-                                            return pages.map((page, index) =>
-                                                page === '...' ? (
-                                                    <span key={index} className="px-3 py-1 text-gray-500">
-                                                        ...
-                                                    </span>
-                                                ) : (
-                                                    <Button
-                                                        key={page}
-                                                        variant={page === currentPage ? 'default' : 'outline'}
-                                                        size="sm"
-                                                        onClick={() =>
-                                                            router.get(route('admin.data-pelanggan'), {
-                                                                search: search,
-                                                                per_page: perPage,
-                                                                page: page,
-                                                            })
-                                                        }
-                                                    >
-                                                        {page}
-                                                    </Button>
-                                                ),
-                                            );
-                                        })()}
-                                    </div>
-
-                                    {/* Next Button */}
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        disabled={pelanggan.current_page === pelanggan.last_page}
-                                        onClick={() =>
-                                            router.get(route('admin.data-pelanggan'), {
-                                                search: search,
-                                                per_page: perPage,
-                                                page: pelanggan.current_page + 1,
-                                            })
-                                        }
-                                    >
-                                        Selanjutnya →
-                                    </Button>
-                                </div>
-                            </div>
-                        )}
+                        <ResponsivePagination data={pelanggan} routeName="admin.data-pelanggan" routeParams={{ search, per_page: perPage }} />
                     </CardContent>
                 </Card>
             </div>
