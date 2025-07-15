@@ -214,12 +214,6 @@ export default function DataPelanggan({ title, pelanggan, tarifs, filters, stats
                             submitText="Simpan Pelanggan"
                             action={route('admin.data-pelanggan.store')}
                             method="post"
-                            trigger={
-                                <Button className="flex items-center space-x-2">
-                                    <Plus className="h-4 w-4" />
-                                    <span>Tambah Pelanggan</span>
-                                </Button>
-                            }
                         />
                     </div>
                 </div>

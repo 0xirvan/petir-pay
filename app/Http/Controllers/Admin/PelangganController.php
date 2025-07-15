@@ -63,7 +63,7 @@ class PelangganController extends Controller
             'password' => 'required|string|min:8|confirmed',
             'nomor_meter' => 'required|string|max:20|unique:pelanggan,nomor_meter',
             'alamat' => 'required|string|max:500',
-            'id_tarif' => 'required|exists:tarifs,id',
+            'id_tarif' => 'required|exists:tarif,id',
         ], [
             'nama.required' => 'Nama harus diisi.',
             'email.required' => 'Email harus diisi.',
@@ -125,7 +125,7 @@ class PelangganController extends Controller
             'password' => 'nullable|string|min:8|confirmed',
             'nomor_meter' => ['required', 'string', 'max:20', Rule::unique('pelanggan', 'nomor_meter')->ignore($pelanggan->id)],
             'alamat' => 'required|string|max:500',
-            'id_tarif' => 'required|exists:tarifs,id',
+            'id_tarif' => 'required|exists:tarif,id',
         ], [
             'nama.required' => 'Nama harus diisi.',
             'email.required' => 'Email harus diisi.',
