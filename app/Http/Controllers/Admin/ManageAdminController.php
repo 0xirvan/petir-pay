@@ -26,6 +26,10 @@ class ManageAdminController extends Controller
         $admins = $query->paginate($perPage);
 
 
+        $totalAdministrator = User::where('role', 'administrator')->count();
+        $totalPetugas = User::where('role', 'petugas')->count();
+        $totalUsers = User::whereIn('role', ['administrator', 'petugas'])->count();
+
         $admins->getCollection()->transform(function ($admin) {
             return [
                 'id' => $admin->id,
@@ -41,6 +45,11 @@ class ManageAdminController extends Controller
         return Inertia::render('admin/kelola-admin', [
             'title' => 'Kelola Admin',
             'adminList' => $admins,
+            'statistics' => [
+                'total_administrator' => $totalAdministrator,
+                'total_petugas' => $totalPetugas,
+                'total_users' => $totalUsers,
+            ],
             'filters' => [
                 'search' => $search,
                 'per_page' => $perPage,

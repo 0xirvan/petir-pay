@@ -35,6 +35,11 @@ interface PaginationData {
 interface KelolaAdminProps {
     title: string;
     adminList: PaginationData;
+    statistics: {
+        total_administrator: number;
+        total_petugas: number;
+        total_users: number;
+    };
     filters?: {
         search?: string;
         per_page?: number;
@@ -60,7 +65,7 @@ const getInitials = (name: string) => {
         .join('');
 };
 
-export default function KelolaAdmin({ adminList, title, filters }: KelolaAdminProps) {
+export default function KelolaAdmin({ adminList, title, statistics, filters }: KelolaAdminProps) {
     const { props } = usePage<{ adminBaru?: Admin }>();
     const [adminListState, setAdminListState] = useState(adminList);
     const [search, setSearch] = useState(filters?.search || '');
@@ -79,9 +84,6 @@ export default function KelolaAdmin({ adminList, title, filters }: KelolaAdminPr
     useEffect(() => {
         setAdminListState(adminList);
     }, [adminList]);
-
-    const totalAdministrator = adminListState.data.filter((admin) => admin.role === 'administrator').length;
-    const totalPetugas = adminListState.data.filter((admin) => admin.role === 'petugas').length;
 
     // Handle search
     const handleSearch = (e: React.FormEvent) => {
@@ -146,7 +148,7 @@ export default function KelolaAdmin({ adminList, title, filters }: KelolaAdminPr
                             <div className="flex items-center justify-between">
                                 <div>
                                     <p className="text-sm text-gray-600">Total Administrator</p>
-                                    <p className="text-2xl font-bold text-red-600">{totalAdministrator}</p>
+                                    <p className="text-2xl font-bold text-red-600">{statistics.total_administrator}</p>
                                 </div>
                                 <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-red-100">
                                     <Shield className="h-6 w-6 text-red-600" />
@@ -160,7 +162,7 @@ export default function KelolaAdmin({ adminList, title, filters }: KelolaAdminPr
                             <div className="flex items-center justify-between">
                                 <div>
                                     <p className="text-sm text-gray-600">Total Petugas</p>
-                                    <p className="text-2xl font-bold text-blue-600">{totalPetugas}</p>
+                                    <p className="text-2xl font-bold text-blue-600">{statistics.total_petugas}</p>
                                 </div>
                                 <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100">
                                     <User className="h-6 w-6 text-blue-600" />
@@ -174,7 +176,7 @@ export default function KelolaAdmin({ adminList, title, filters }: KelolaAdminPr
                             <div className="flex items-center justify-between">
                                 <div>
                                     <p className="text-sm text-gray-600">Total Users</p>
-                                    <p className="text-2xl font-bold text-green-600">{adminListState.total}</p>
+                                    <p className="text-2xl font-bold text-green-600">{statistics.total_users}</p>
                                 </div>
                                 <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-100">
                                     <Users className="h-6 w-6 text-green-600" />
@@ -364,7 +366,7 @@ export default function KelolaAdmin({ adminList, title, filters }: KelolaAdminPr
                         {adminListState.last_page > 1 && (
                             <div className="flex items-center justify-between border-t border-gray-200 px-6 py-4">
                                 <div className="text-sm text-gray-700">
-                                    Menampilkan {adminListState.from} sampai {adminListState.to} dari {adminListState.total} hasil
+                                    Menampilkan {adminListState.from} sampai {adminListState.to}
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     {/* Previous Button */}
