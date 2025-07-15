@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ManageAdminController;
+use App\Http\Controllers\Admin\MetodePembayaranController;
 use App\Http\Controllers\Admin\PelangganController;
 use App\Http\Controllers\Admin\TarifController;
 use Illuminate\Support\Facades\Route;
@@ -36,6 +37,17 @@ Route::middleware('auth')->prefix('admin')->group(function () {
             ->name('admin.kelola-tarif.update');
         Route::delete('kelola-tarif/{id}', [TarifController::class, 'destroy'])
             ->name('admin.kelola-tarif.destroy');
+
+        Route::get('kelola-metode-pembayaran', [MetodePembayaranController::class, 'index'])
+            ->name('admin.kelola-metode-pembayaran');
+        Route::post('kelola-metode-pembayaran', [MetodePembayaranController::class, 'store'])
+            ->name('admin.kelola-metode-pembayaran.store');
+        Route::put('kelola-metode-pembayaran/{id}', [MetodePembayaranController::class, 'update'])
+            ->name('admin.kelola-metode-pembayaran.update');
+        Route::delete('kelola-metode-pembayaran/{id}', [MetodePembayaranController::class, 'destroy'])
+            ->name('admin.kelola-metode-pembayaran.destroy');
+        Route::patch('kelola-metode-pembayaran/{id}/toggle-status', [MetodePembayaranController::class, 'toggleStatus'])
+            ->name('admin.kelola-metode-pembayaran.toggle-status');
     });
 
     // Routes untuk Administrator dan Petugas

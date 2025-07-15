@@ -22,3 +22,7 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+
+!/storage/app/
+!/storage/app/public/
+!/storage/app/public/metode-pembayaran/

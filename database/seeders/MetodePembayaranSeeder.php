@@ -21,7 +21,7 @@ class MetodePembayaranSeeder extends Seeder
                 'nomor_rekening' => '1234567890',
                 'biaya_admin' => 2500.00,
                 'deskripsi' => 'Transfer melalui Bank BCA',
-                'logo' => 'bca-logo.png',
+                'logo' => 'metode-pembayaran/bca-logo.svg',
                 'is_aktif' => true,
             ],
             [
@@ -31,7 +31,7 @@ class MetodePembayaranSeeder extends Seeder
                 'nomor_rekening' => '9876543210',
                 'biaya_admin' => 3000.00,
                 'deskripsi' => 'Transfer melalui Bank Mandiri',
-                'logo' => 'mandiri-logo.png',
+                'logo' => 'metode-pembayaran/mandiri-logo.svg',
                 'is_aktif' => true,
             ],
             [
@@ -41,7 +41,7 @@ class MetodePembayaranSeeder extends Seeder
                 'nomor_rekening' => '5555666677',
                 'biaya_admin' => 2000.00,
                 'deskripsi' => 'Transfer melalui Bank BRI',
-                'logo' => 'bri-logo.png',
+                'logo' => 'metode-pembayaran/bri-logo.svg',
                 'is_aktif' => true,
             ],
             [
@@ -51,7 +51,7 @@ class MetodePembayaranSeeder extends Seeder
                 'nomor_rekening' => '081234567890',
                 'biaya_admin' => 1500.00,
                 'deskripsi' => 'Pembayaran melalui OVO',
-                'logo' => 'ovo-logo.png',
+                'logo' => 'metode-pembayaran/ovo-logo.svg',
                 'is_aktif' => true,
             ],
             [
@@ -61,7 +61,7 @@ class MetodePembayaranSeeder extends Seeder
                 'nomor_rekening' => '081987654321',
                 'biaya_admin' => 1000.00,
                 'deskripsi' => 'Pembayaran melalui GoPay',
-                'logo' => 'gopay-logo.png',
+                'logo' => 'metode-pembayaran/gopay-logo.svg',
                 'is_aktif' => true,
             ],
             [
@@ -71,7 +71,7 @@ class MetodePembayaranSeeder extends Seeder
                 'nomor_rekening' => '081555444333',
                 'biaya_admin' => 1200.00,
                 'deskripsi' => 'Pembayaran melalui DANA',
-                'logo' => 'dana-logo.png',
+                'logo' => 'metode-pembayaran/dana-logo.svg',
                 'is_aktif' => true,
             ],
         ];

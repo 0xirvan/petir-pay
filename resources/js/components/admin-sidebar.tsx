@@ -19,10 +19,17 @@ export default function AdminSidebar({ sidebarOpen, setSidebarOpen, adminName = 
     const sidebarItems = [
         { id: 'dashboard', label: 'Dashboard', icon: Home, route: 'admin.dashboard', forRoles: ['administrator, petugas'] },
         { id: 'tarif', label: 'Kelola Tarif', icon: Calculator, route: 'admin.kelola-tarif', forRoles: ['administrator'] },
+        {
+            id: 'metode-pembayaran',
+            label: 'Metode Pembayaran',
+            icon: CreditCard,
+            route: 'admin.kelola-metode-pembayaran',
+            forRoles: ['administrator'],
+        },
         { id: 'admin', label: 'Kelola Admin', icon: Users, route: 'admin.kelola-admin', forRoles: ['administrator'] },
         { id: 'pelanggan', label: 'Data Pelanggan', icon: User, route: 'admin.data-pelanggan', forRoles: ['administrator', 'petugas'] },
         { id: 'tagihan', label: 'Verifikasi Tagihan', icon: Receipt, route: 'admin.dashboard', forRoles: ['administrator'] },
-        { id: 'riwayat', label: 'Riwayat Pembayaran', icon: CreditCard, route: 'admin.dashboard', forRoles: ['administrator'] },
+        { id: 'riwayat', label: 'Riwayat Pembayaran', icon: Receipt, route: 'admin.dashboard', forRoles: ['administrator'] },
         { id: 'settings', label: 'Pengaturan', icon: Settings, route: 'admin.dashboard', forRoles: ['administrator'] },
     ];
 
