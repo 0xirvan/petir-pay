@@ -5,7 +5,9 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ManageAdminController;
 use App\Http\Controllers\Admin\MetodePembayaranController;
 use App\Http\Controllers\Admin\PelangganController;
+use App\Http\Controllers\Admin\TagihanController;
 use App\Http\Controllers\Admin\TarifController;
+use App\Http\Controllers\Admin\VerifikasiPembayaranController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -66,6 +68,28 @@ Route::middleware('auth')->prefix('admin')->group(function () {
             ->name('admin.data-pelanggan.export-selected');
         Route::get('data-pelanggan/export/all', [PelangganController::class, 'exportAll'])
             ->name('admin.data-pelanggan.export-all');
+
+        // Routes untuk Tagihan
+        Route::get('tagihan', [TagihanController::class, 'index'])
+            ->name('admin.tagihan');
+        Route::post('tagihan', [TagihanController::class, 'store'])
+            ->name('admin.tagihan.store');
+        Route::put('tagihan/{id}', [TagihanController::class, 'update'])
+            ->name('admin.tagihan.update');
+        Route::delete('tagihan/{id}', [TagihanController::class, 'destroy'])
+            ->name('admin.tagihan.destroy');
+        Route::get('tagihan/search-pelanggan', [TagihanController::class, 'searchPelanggan'])
+            ->name('admin.tagihan.search-pelanggan');
+
+        // Routes untuk Verifikasi Pembayaran
+        Route::get('verifikasi-pembayaran', [VerifikasiPembayaranController::class, 'index'])
+            ->name('admin.verifikasi-pembayaran');
+        Route::get('verifikasi-pembayaran/{id}', [VerifikasiPembayaranController::class, 'show'])
+            ->name('admin.verifikasi-pembayaran.show');
+        Route::post('verifikasi-pembayaran/{id}/approve', [VerifikasiPembayaranController::class, 'approve'])
+            ->name('admin.verifikasi-pembayaran.approve');
+        Route::post('verifikasi-pembayaran/{id}/reject', [VerifikasiPembayaranController::class, 'reject'])
+            ->name('admin.verifikasi-pembayaran.reject');
 
     });
 });

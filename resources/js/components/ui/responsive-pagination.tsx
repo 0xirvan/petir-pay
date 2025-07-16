@@ -104,7 +104,7 @@ export default function ResponsivePagination({ data, routeName, routeParams = {}
                     {/* Page numbers - mobile version */}
                     {generateMobilePageNumbers().map((page) => (
                         <Button
-                            key={page}
+                            key={`mobile-page-${page}`}
                             variant={page === current_page ? 'default' : 'outline'}
                             size="sm"
                             onClick={() => navigateToPage(page)}
@@ -143,12 +143,12 @@ export default function ResponsivePagination({ data, routeName, routeParams = {}
                     <div className="flex space-x-1">
                         {generatePageNumbers().map((page, index) =>
                             page === '...' ? (
-                                <span key={index} className="flex h-9 w-9 items-center justify-center text-gray-500">
+                                <span key={`ellipsis-${index}`} className="flex h-9 w-9 items-center justify-center text-gray-500">
                                     <MoreHorizontal className="h-4 w-4" />
                                 </span>
                             ) : (
                                 <Button
-                                    key={page}
+                                    key={`page-${page}`}
                                     variant={page === current_page ? 'default' : 'outline'}
                                     size="sm"
                                     onClick={() => navigateToPage(page as number)}
@@ -184,7 +184,7 @@ export default function ResponsivePagination({ data, routeName, routeParams = {}
                         </SelectTrigger>
                         <SelectContent>
                             {Array.from({ length: last_page }, (_, i) => i + 1).map((page) => (
-                                <SelectItem key={page} value={page.toString()}>
+                                <SelectItem key={`select-page-${page}`} value={page.toString()}>
                                     {page}
                                 </SelectItem>
                             ))}

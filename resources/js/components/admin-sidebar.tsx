@@ -1,6 +1,6 @@
 import { SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { Calculator, CreditCard, Home, Receipt, Settings, User, Users, X, Zap } from 'lucide-react';
+import { Calculator, CreditCard, FileText, Home, Receipt, Settings, ShieldCheck, User, Users, X, Zap } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Button } from './ui/button';
 
@@ -28,7 +28,14 @@ export default function AdminSidebar({ sidebarOpen, setSidebarOpen, adminName = 
         },
         { id: 'admin', label: 'Kelola Admin', icon: Users, route: 'admin.kelola-admin', forRoles: ['administrator'] },
         { id: 'pelanggan', label: 'Data Pelanggan', icon: User, route: 'admin.data-pelanggan', forRoles: ['administrator', 'petugas'] },
-        { id: 'tagihan', label: 'Verifikasi Tagihan', icon: Receipt, route: 'admin.dashboard', forRoles: ['administrator'] },
+        { id: 'tagihan', label: 'Kelola Tagihan', icon: FileText, route: 'admin.tagihan', forRoles: ['administrator', 'petugas'] },
+        {
+            id: 'verifikasi',
+            label: 'Verifikasi Pembayaran',
+            icon: ShieldCheck,
+            route: 'admin.verifikasi-pembayaran',
+            forRoles: ['administrator', 'petugas'],
+        },
         { id: 'riwayat', label: 'Riwayat Pembayaran', icon: Receipt, route: 'admin.dashboard', forRoles: ['administrator'] },
         { id: 'settings', label: 'Pengaturan', icon: Settings, route: 'admin.dashboard', forRoles: ['administrator'] },
     ];

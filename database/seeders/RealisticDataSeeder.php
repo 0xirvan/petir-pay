@@ -242,7 +242,9 @@ class RealisticDataSeeder extends Seeder
                 'tanggal_pembayaran' => $tagihan->tanggal_bayar,
                 'bulan_bayar' => $tagihan->bulan,
                 'total_bayar' => max(0, $totalBayar), // Ensure non-negative
-                'id_user' => $adminUser->id,
+                'status_verifikasi' => 'disetujui',
+                'id_verifikator' => $adminUser->id,
+                'tanggal_verifikasi' => $tagihan->tanggal_bayar,
                 'created_at' => $tagihan->tanggal_bayar,
                 'updated_at' => $tagihan->tanggal_bayar,
             ]);

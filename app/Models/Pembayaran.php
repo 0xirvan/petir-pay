@@ -15,8 +15,20 @@ class Pembayaran extends Model
         'tanggal_pembayaran',
         'bulan_bayar',
         'total_bayar',
-        'id_user',
+        'bukti_transfer',
+        'status_verifikasi',
+        'catatan_verifikasi',
+        'tanggal_verifikasi',
+        'id_verifikator',
     ];
+
+    protected $casts = [
+        'tanggal_pembayaran' => 'date',
+        'tanggal_verifikasi' => 'datetime',
+        'total_bayar' => 'decimal:2',
+    ];
+
+    protected $appends = ['bukti_transfer_url'];
 
     /**
      * Relasi ke model Tagihan
@@ -43,10 +55,71 @@ class Pembayaran extends Model
     }
 
     /**
-     * Relasi ke model User (yang memproses pembayaran)
+     * Relasi ke model User (verifikator)
      */
-    public function user()
+    public function verifikator()
     {
-        return $this->belongsTo(User::class, 'id_user');
+        return $this->belongsTo(User::class, 'id_verifikator');
+    }
+
+    /**
+     * Accessor untuk URL bukti transfer
+     */
+    public function getBuktiTransferUrlAttribute()
+    {
+        if (!$this->bukti_transfer) {
+            return null;
+        }
+
+        return asset('storage/bukti-transfer/' . $this->bukti_transfer);
+    }
+
+    /**
+     * Scope untuk status verifikasi menunggu
+     */
+    public function scopeMenungguVerifikasi($query)
+    {
+        return $query->where('status_verifikasi', 'menunggu');
+    }
+
+    /**
+     * Scope untuk status verifikasi disetujui
+     */
+    public function scopeDisetujui($query)
+    {
+        return $query->where('status_verifikasi', 'disetujui');
+    }
+
+    /**
+     * Scope untuk status verifikasi ditolak
+     */
+    public function scopeDitolak($query)
+    {
+        return $query->where('status_verifikasi', 'ditolak');
+    }
+
+    /**
+     * Upload bukti transfer file
+     */
+    public static function uploadBuktiTransfer($file, $pembayaranId = null)
+    {
+        if (!$file) {
+            return null;
+        }
+
+        $filename = time() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
+        $file->storeAs('bukti-transfer', $filename, 'public');
+
+        return $filename;
+    }
+
+    /**
+     * Hapus file bukti transfer
+     */
+    public function deleteBuktiTransfer()
+    {
+        if ($this->bukti_transfer && \Storage::disk('public')->exists('bukti-transfer/' . $this->bukti_transfer)) {
+            \Storage::disk('public')->delete('bukti-transfer/' . $this->bukti_transfer);
+        }
     }
 }
