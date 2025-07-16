@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ManageAdminController;
 use App\Http\Controllers\Admin\MetodePembayaranController;
 use App\Http\Controllers\Admin\PelangganController;
+use App\Http\Controllers\Admin\PengaturanController;
 use App\Http\Controllers\Admin\TagihanController;
 use App\Http\Controllers\Admin\TarifController;
 use App\Http\Controllers\Admin\VerifikasiPembayaranController;
@@ -91,5 +92,16 @@ Route::middleware('auth')->prefix('admin')->group(function () {
         Route::post('verifikasi-pembayaran/{id}/reject', [VerifikasiPembayaranController::class, 'reject'])
             ->name('admin.verifikasi-pembayaran.reject');
 
+        // Routes untuk Pengaturan
+        Route::get('pengaturan', [PengaturanController::class, 'index'])
+            ->name('admin.pengaturan');
+        Route::post('pengaturan/update-profile', [PengaturanController::class, 'updateProfile'])
+            ->name('admin.pengaturan.update-profile');
+        Route::post('pengaturan/update-password', [PengaturanController::class, 'updatePassword'])
+            ->name('admin.pengaturan.update-password');
+        Route::post('pengaturan/update-photo', [PengaturanController::class, 'updatePhoto'])
+            ->name('admin.pengaturan.update-photo');
+        Route::delete('pengaturan/delete-photo', [PengaturanController::class, 'deletePhoto'])
+            ->name('admin.pengaturan.delete-photo');
     });
 });

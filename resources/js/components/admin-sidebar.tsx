@@ -1,6 +1,6 @@
 import { SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { Calculator, CreditCard, FileText, Home, Receipt, Settings, ShieldCheck, User, Users, X, Zap } from 'lucide-react';
+import { Calculator, CreditCard, FileText, Home, Settings, ShieldCheck, User, Users, X, Zap } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Button } from './ui/button';
 
@@ -36,8 +36,7 @@ export default function AdminSidebar({ sidebarOpen, setSidebarOpen, adminName = 
             route: 'admin.verifikasi-pembayaran',
             forRoles: ['administrator', 'petugas'],
         },
-        { id: 'riwayat', label: 'Riwayat Pembayaran', icon: Receipt, route: 'admin.dashboard', forRoles: ['administrator'] },
-        { id: 'settings', label: 'Pengaturan', icon: Settings, route: 'admin.dashboard', forRoles: ['administrator'] },
+        { id: 'settings', label: 'Pengaturan', icon: Settings, route: 'admin.pengaturan', forRoles: ['administrator', 'petugas'] },
     ];
 
     return (
