@@ -109,7 +109,7 @@ export default function Pengaturan({ title, user }: PengaturanProps) {
                         fileInputRef.current.value = '';
                     }
                     setUploadingPhoto(false);
-                    // Refresh page to show new photo
+                    // Refresh page
                     window.location.reload();
                 },
                 onError: (errors: any) => {

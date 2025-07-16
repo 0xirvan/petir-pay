@@ -127,6 +127,6 @@ class SimpleRealisticSeeder extends Seeder
         echo "   ⚡ Penggunaan: {$jumlahKwh} kWh ({$bulanLalu->format('F Y')})\n";
         echo "   📄 Tagihan: Rp " . number_format($totalBiaya, 0, ',', '.') . " (Status: {$tagihan->status})\n";
         echo "   💳 Metode: {$metodePembayaran->nama}\n";
-        echo "   💰 Pembayaran: Rp " . number_format((float)$totalBayar, 0, ',', '.') . " (Admin: Rp " . number_format((float)$metodePembayaran->biaya_admin, 0, ',', '.') . ")\n";
+        echo "   💰 Pembayaran: Rp " . number_format((float) $totalBayar, 0, ',', '.') . " (Admin: Rp " . number_format((float) $metodePembayaran->biaya_admin, 0, ',', '.') . ")\n";
     }
 }
