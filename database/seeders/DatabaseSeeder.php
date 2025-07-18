@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             TarifSeeder::class,
             MetodePembayaranSeeder::class,
-            RealisticDataSeeder::class,
+            // RealisticDataSeeder::class,
         ]);
     }
 }

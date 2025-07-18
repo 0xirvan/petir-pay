@@ -81,6 +81,8 @@ Route::middleware('auth')->prefix('admin')->group(function () {
             ->name('admin.tagihan.destroy');
         Route::get('tagihan/search-pelanggan', [TagihanController::class, 'searchPelanggan'])
             ->name('admin.tagihan.search-pelanggan');
+        Route::get('tagihan/penggunaan-bulan-sebelumnya', [TagihanController::class, 'getPenggunaanBulanSebelumnya'])
+            ->name('admin.tagihan.penggunaan-bulan-sebelumnya');
 
         // Routes untuk Verifikasi Pembayaran
         Route::get('verifikasi-pembayaran', [VerifikasiPembayaranController::class, 'index'])

@@ -81,13 +81,28 @@ class TagihanController extends Controller
         // Create penggunaan record first (optional, could be null)
         $penggunaan = null;
         if ($request->jumlah_meter > 0) {
+            // Get meter_akhir from previous month to use as meter_awal
+            $previousMonth = $request->bulan - 1;
+            $previousYear = $request->tahun;
+
+            if ($previousMonth <= 0) {
+                $previousMonth = 12;
+                $previousYear = $request->tahun - 1;
+            }
+
+            $previousPenggunaan = Penggunaan::where('id_pelanggan', $request->id_pelanggan)
+                ->where('bulan', $previousMonth)
+                ->where('tahun', $previousYear)
+                ->first();
+
+            $meterAwal = $previousPenggunaan ? $previousPenggunaan->meter_akhir : 0;
+
             $penggunaan = Penggunaan::create([
                 'id_pelanggan' => $request->id_pelanggan,
                 'bulan' => $request->bulan,
                 'tahun' => $request->tahun,
-                'meter_awal' => 0, // Could be filled later
-                'meter_akhir' => $request->jumlah_meter,
-                'jumlah_kwh' => $request->jumlah_meter,
+                'meter_awal' => $meterAwal,
+                'meter_akhir' => $meterAwal + $request->jumlah_meter,
             ]);
         }
 
@@ -136,5 +151,37 @@ class TagihanController extends Controller
             });
 
         return response()->json($pelanggan);
+    }
+
+    // API endpoint untuk get penggunaan bulan sebelumnya
+    public function getPenggunaanBulanSebelumnya(Request $request)
+    {
+        $pelangganId = $request->get('id_pelanggan');
+        $bulan = $request->get('bulan');
+        $tahun = $request->get('tahun');
+
+        if (!$pelangganId || !$bulan || !$tahun) {
+            return response()->json(['meter_akhir' => 0]);
+        }
+
+        $previousMonth = $bulan - 1;
+        $previousYear = $tahun;
+
+        if ($previousMonth <= 0) {
+            $previousMonth = 12;
+            $previousYear = $tahun - 1;
+        }
+
+        $previousPenggunaan = Penggunaan::where('id_pelanggan', $pelangganId)
+            ->where('bulan', $previousMonth)
+            ->where('tahun', $previousYear)
+            ->first();
+
+        return response()->json([
+            'meter_akhir' => $previousPenggunaan ? $previousPenggunaan->meter_akhir : 0,
+            'previous_month' => $previousMonth,
+            'previous_year' => $previousYear,
+            'has_previous' => $previousPenggunaan ? true : false
+        ]);
     }
 }

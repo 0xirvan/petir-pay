@@ -38,6 +38,12 @@ export function TagihanFormDialog({ trigger }: TagihanFormDialogProps) {
     const [tahun, setTahun] = useState(new Date().getFullYear().toString());
     const [jumlahMeter, setJumlahMeter] = useState('');
     const [searchLoading, setSearchLoading] = useState(false);
+    const [meterAwalInfo, setMeterAwalInfo] = useState<{
+        meter_akhir: number;
+        previous_month: number;
+        previous_year: number;
+        has_previous: boolean;
+    } | null>(null);
 
     // Search pelanggan
     useEffect(() => {
@@ -102,11 +108,31 @@ export function TagihanFormDialog({ trigger }: TagihanFormDialogProps) {
         setBulan('');
         setTahun(new Date().getFullYear().toString());
         setJumlahMeter('');
+        setMeterAwalInfo(null);
     };
 
     const calculateEstimatedBill = () => {
         if (!selectedPelanggan?.tarif || !jumlahMeter) return 0;
         return parseInt(jumlahMeter) * selectedPelanggan.tarif.tarif_per_kwh;
+    };
+
+    const getBulanName = (month: number) => {
+        const bulanNames = [
+            '',
+            'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember',
+        ];
+        return bulanNames[month] || '';
     };
 
     const bulanOptions = [
@@ -126,6 +152,30 @@ export function TagihanFormDialog({ trigger }: TagihanFormDialogProps) {
 
     const currentYear = new Date().getFullYear();
     const tahunOptions = Array.from({ length: 7 }, (_, i) => currentYear - 1 + i);
+
+    // Get meter awal info when pelanggan, bulan, or tahun changes
+    useEffect(() => {
+        if (selectedPelanggan && bulan && tahun) {
+            getMeterAwalInfo();
+        } else {
+            setMeterAwalInfo(null);
+        }
+    }, [selectedPelanggan, bulan, tahun]);
+
+    const getMeterAwalInfo = async () => {
+        if (!selectedPelanggan || !bulan || !tahun) return;
+
+        try {
+            const response = await fetch(
+                `/admin/tagihan/penggunaan-bulan-sebelumnya?id_pelanggan=${selectedPelanggan.id}&bulan=${bulan}&tahun=${tahun}`,
+            );
+            const data = await response.json();
+            setMeterAwalInfo(data);
+        } catch (error) {
+            console.error('Error fetching meter awal info:', error);
+            setMeterAwalInfo(null);
+        }
+    };
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -279,6 +329,34 @@ export function TagihanFormDialog({ trigger }: TagihanFormDialogProps) {
                         />
                         <p className="text-xs text-gray-500">Masukkan jumlah kWh yang dikonsumsi pada periode tersebut</p>
                     </div>
+
+                    {/* Informasi Meter Awal */}
+                    {meterAwalInfo && (
+                        <div className="rounded-lg border bg-blue-50 p-4">
+                            <h4 className="mb-2 font-semibold text-blue-900">Informasi Meter</h4>
+                            <div className="space-y-1 text-sm">
+                                {meterAwalInfo.has_previous ? (
+                                    <div>
+                                        <p className="text-blue-700">
+                                            <strong>Meter Awal:</strong> {meterAwalInfo.meter_akhir} kWh
+                                        </p>
+                                        <p className="text-blue-600">
+                                            (Meter akhir dari {getBulanName(meterAwalInfo.previous_month)} {meterAwalInfo.previous_year})
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <p className="text-blue-700">
+                                        <strong>Meter Awal:</strong> 0 kWh (Belum ada data bulan sebelumnya)
+                                    </p>
+                                )}
+                                {jumlahMeter && (
+                                    <p className="text-blue-700">
+                                        <strong>Meter Akhir:</strong> {meterAwalInfo.meter_akhir + parseInt(jumlahMeter || '0')} kWh
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+                    )}
 
                     {/* Estimasi Tagihan */}
                     {selectedPelanggan?.tarif && jumlahMeter && (
