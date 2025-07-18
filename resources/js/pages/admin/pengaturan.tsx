@@ -67,7 +67,6 @@ export default function Pengaturan({ title, user }: PengaturanProps) {
 
     const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-        console.log('File selected:', file);
 
         if (file) {
             // Check file size (2MB = 2048KB)
@@ -96,15 +95,9 @@ export default function Pengaturan({ title, user }: PengaturanProps) {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
-                onStart: () => {
-                    console.log('Upload started');
-                },
-                onProgress: (progress: any) => {
-                    console.log('Upload progress:', progress);
-                },
+                onStart: () => {},
+                onProgress: (progress: any) => {},
                 onSuccess: (page: any) => {
-                    console.log('Upload success:', page);
-                    console.log('Success page props:', page.props);
                     if (fileInputRef.current) {
                         fileInputRef.current.value = '';
                     }
@@ -113,12 +106,9 @@ export default function Pengaturan({ title, user }: PengaturanProps) {
                     window.location.reload();
                 },
                 onError: (errors: any) => {
-                    console.error('Upload error:', errors);
-                    console.log('Full error object:', errors);
                     setUploadingPhoto(false);
                 },
                 onFinish: () => {
-                    console.log('Upload finished');
                     setUploadingPhoto(false);
                 },
             });

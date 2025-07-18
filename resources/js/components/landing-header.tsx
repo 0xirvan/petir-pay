@@ -6,7 +6,6 @@ import { Button } from './ui/button';
 
 export default function LandingHeader() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    console.log(route('pelanggan.login'));
 
     const scrollToTop = () => {
         scroll.scrollToTop();
