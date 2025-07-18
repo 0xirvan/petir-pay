@@ -28,4 +28,6 @@ Route::middleware('auth:pelanggan')->group(function () {
         ->name('pelanggan.logout');
     Route::get('dashboard', [DashboardController::class, 'index'])
         ->name('pelanggan.dashboard');
+    Route::post('upload-bukti-pembayaran', [DashboardController::class, 'uploadBuktiPembayaran'])
+        ->name('pelanggan.upload-bukti-pembayaran');
 });
