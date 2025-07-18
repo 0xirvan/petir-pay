@@ -1,6 +1,5 @@
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { CheckCircle, Eye, Receipt } from 'lucide-react';
+import { CheckCircle, Receipt } from 'lucide-react';
 import StatusBadge from './status-badge';
 import { RiwayatPembayaran, TagihanData } from './types';
 
@@ -60,9 +59,6 @@ export default function HistoryList({ riwayatTagihan, riwayatPembayaran }: Histo
                                         <p className="font-bold text-gray-900">{formatCurrency(tagihan.total)}</p>
                                         <div className="mt-1 flex items-center space-x-2">
                                             <StatusBadge status={tagihan.status} />
-                                            <Button variant="ghost" size="sm">
-                                                <Eye className="h-4 w-4" />
-                                            </Button>
                                         </div>
                                     </div>
                                 </div>
