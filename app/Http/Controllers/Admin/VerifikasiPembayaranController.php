@@ -106,6 +106,7 @@ class VerifikasiPembayaranController extends Controller
             'verifikator'
         ])->findOrFail($id);
 
+
         return Inertia::render('admin/detail-verifikasi-pembayaran', [
             'title' => 'Detail Verifikasi Pembayaran',
             'pembayaran' => $pembayaran,

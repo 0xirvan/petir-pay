@@ -1,4 +1,5 @@
 import { Card, CardContent } from '@/components/ui/card';
+import { formatCurrency } from '@/utils/utils';
 import { Receipt, TrendingUp, Zap } from 'lucide-react';
 import { CustomerData, TagihanData } from './types';
 
@@ -9,15 +10,6 @@ interface QuickStatsProps {
 }
 
 export default function QuickStats({ pelanggan, currentBill, statusDashboard }: QuickStatsProps) {
-    const formatCurrency = (amount: string | number) => {
-        const numAmount = typeof amount === 'string' ? parseFloat(amount) : amount;
-        return new Intl.NumberFormat('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-            minimumFractionDigits: 0,
-        }).format(numAmount);
-    };
-
     return (
         <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-3">
             <Card className="border-0 shadow-lg">

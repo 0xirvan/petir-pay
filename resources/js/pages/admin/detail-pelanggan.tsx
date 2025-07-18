@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AdminLayout from '@/layouts/admin-layout';
+import { formatCurrency } from '@/utils/utils';
 import { Link } from '@inertiajs/react';
 import { ArrowLeft, Calendar, CreditCard, MapPin, User, Zap } from 'lucide-react';
 
@@ -78,16 +79,6 @@ export default function DetailPelanggan({ title, pelanggan }: DetailPelangganPro
             default:
                 return <Badge variant="secondary">{status}</Badge>;
         }
-    };
-
-    const formatCurrency = (amount: number) => {
-        // Pastikan amount adalah number yang valid
-        const validAmount = typeof amount === 'number' && !isNaN(amount) ? amount : 0;
-        return new Intl.NumberFormat('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-            minimumFractionDigits: 0,
-        }).format(validAmount);
     };
 
     const totalTagihanBelumBayar = pelanggan.tagihan

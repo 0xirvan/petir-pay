@@ -1,4 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { formatCurrency, formatDate } from '@/utils/utils';
 import { CheckCircle, Receipt } from 'lucide-react';
 import StatusBadge from './status-badge';
 import { RiwayatPembayaran, TagihanData } from './types';
@@ -9,23 +10,6 @@ interface HistoryListProps {
 }
 
 export default function HistoryList({ riwayatTagihan, riwayatPembayaran }: HistoryListProps) {
-    const formatCurrency = (amount: string | number) => {
-        const numAmount = typeof amount === 'string' ? parseFloat(amount) : amount;
-        return new Intl.NumberFormat('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-            minimumFractionDigits: 0,
-        }).format(numAmount);
-    };
-
-    const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('id-ID', {
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric',
-        });
-    };
-
     return (
         <div className="space-y-6">
             {/* Riwayat Tagihan */}

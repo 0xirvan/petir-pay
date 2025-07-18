@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
+import { formatCurrency } from '@/utils/utils';
 import { router } from '@inertiajs/react';
 import { Wallet, X } from 'lucide-react';
 import React, { useState } from 'react';
@@ -24,15 +25,6 @@ export default function PaymentForm({
     const [isProcessingPayment, setIsProcessingPayment] = useState(false);
     const [uploadedProof, setUploadedProof] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-
-    const formatCurrency = (amount: string | number) => {
-        const numAmount = typeof amount === 'string' ? parseFloat(amount) : amount;
-        return new Intl.NumberFormat('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-            minimumFractionDigits: 0,
-        }).format(numAmount);
-    };
 
     const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];

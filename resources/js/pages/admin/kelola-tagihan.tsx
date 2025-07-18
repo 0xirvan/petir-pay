@@ -7,7 +7,7 @@ import ResponsivePagination from '@/components/ui/responsive-pagination';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AdminLayout from '@/layouts/admin-layout';
-import { formatCurrency } from '@/utils/utils';
+import { formatCurrency, formatPeriode } from '@/utils/utils';
 import { router, usePage } from '@inertiajs/react';
 import { CalendarDays, CreditCard, Filter, Plus, Receipt, Search, Users, Zap } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -114,11 +114,6 @@ export default function KelolaTagihan({ title, tagihan, filters, stats }: Kelola
                 {config.label}
             </Badge>
         );
-    };
-
-    const formatPeriode = (bulan: number, tahun: number) => {
-        const namaBulan = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
-        return `${namaBulan[bulan]} ${tahun}`;
     };
 
     const statsData = [

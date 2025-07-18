@@ -41,7 +41,7 @@ interface MetodePembayaran {
     kode: string;
     atas_nama: string;
     nomor_rekening: string;
-    biaya_admin: number;
+    biaya_admin: string;
 }
 
 interface Verifikator {
@@ -54,7 +54,7 @@ interface Pembayaran {
     tagihan: Tagihan;
     metode_pembayaran: MetodePembayaran;
     tanggal_pembayaran: string;
-    total_bayar: number;
+    total_bayar: string;
     bukti_transfer: string;
     bukti_transfer_url: string;
     status_verifikasi: string;
@@ -300,7 +300,9 @@ export default function DetailVerifikasiPembayaran({ title, pembayaran }: Detail
                                 <hr />
                                 <div>
                                     <Label className="text-sm font-medium text-gray-700">Total Pembayaran</Label>
-                                    <p className="mt-1 text-2xl font-bold text-blue-600">{formatCurrency(pembayaran.total_bayar)}</p>
+                                    <p className="mt-1 text-2xl font-bold text-blue-600">
+                                        {formatCurrency(parseFloat(pembayaran.total_bayar) + parseFloat(pembayaran.metode_pembayaran.biaya_admin))}
+                                    </p>
                                 </div>
                             </CardContent>
                         </Card>

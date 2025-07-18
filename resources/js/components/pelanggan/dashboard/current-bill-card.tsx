@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { formatCurrency } from '@/utils/utils';
 import StatusBadge from './status-badge';
 import { TagihanData } from './types';
 
@@ -9,15 +10,6 @@ interface CurrentBillCardProps {
 }
 
 export default function CurrentBillCard({ currentBill, onBayarClick }: CurrentBillCardProps) {
-    const formatCurrency = (amount: string | number) => {
-        const numAmount = typeof amount === 'string' ? parseFloat(amount) : amount;
-        return new Intl.NumberFormat('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-            minimumFractionDigits: 0,
-        }).format(numAmount);
-    };
-
     return (
         <Card className="border-0 shadow-lg">
             <CardHeader>

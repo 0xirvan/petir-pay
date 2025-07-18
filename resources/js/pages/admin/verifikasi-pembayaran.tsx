@@ -6,7 +6,7 @@ import ResponsivePagination from '@/components/ui/responsive-pagination';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AdminLayout from '@/layouts/admin-layout';
-import { formatCurrency } from '@/utils/utils';
+import { formatCurrency, formatPeriode } from '@/utils/utils';
 import { router } from '@inertiajs/react';
 import { Check, CheckCircle, Clock, Eye, Search, X, XCircle } from 'lucide-react';
 import { useState } from 'react';
@@ -170,11 +170,6 @@ export default function VerifikasiPembayaran({ title, pembayaranList, filters, s
             default:
                 return <Badge variant="outline">{status}</Badge>;
         }
-    };
-
-    const formatPeriode = (bulan: number, tahun: number) => {
-        const namaBulan = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
-        return `${namaBulan[bulan - 1]} ${tahun}`;
     };
 
     return (
