@@ -26,3 +26,5 @@ yarn-error.log
 !/storage/app/
 !/storage/app/public/
 !/storage/app/public/metode-pembayaran/
+!/storage/app/public/bukti-tranfer/
+!/storage/app/public/profile-photos/
