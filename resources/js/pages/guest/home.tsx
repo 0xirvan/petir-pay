@@ -1,8 +1,9 @@
 import LandingCard from '@/components/landing-card';
 import { Button } from '@/components/ui/button';
 import GuestLayout from '@/layouts/guest-layout';
+import { Link } from '@inertiajs/react';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-import { ArrowRight, Badge, Bell, Clock, CreditCard, Link, Shield, Smartphone, Star, Users, Zap } from 'lucide-react';
+import { ArrowRight, Badge, Bell, Clock, CreditCard, Shield, Smartphone, Star, Users, Zap } from 'lucide-react';
 
 export default function Home() {
     return (
