@@ -1,6 +1,6 @@
 import { Tabs } from '@/components/ui/tabs';
-import { Head } from '@inertiajs/react';
-import { useState } from 'react';
+import { Head, usePage } from '@inertiajs/react';
+import { useEffect, useState } from 'react';
 
 // Import components from the dashboard module
 import {
@@ -17,6 +17,19 @@ import {
 
 export default function Dashboard({ pelanggan, currentBill, riwayatTagihan, riwayatPembayaran, metodePembayaran, statusDashboard }: DashboardProps) {
     const [activeTab, setActiveTab] = useState('overview');
+    const { props } = usePage();
+    const flash = props.flash as { success?: string; error?: string; redirect_to_history?: boolean };
+
+    // Handle redirect to history tab after successful payment
+    useEffect(() => {
+        if (flash.redirect_to_history) {
+            setActiveTab('riwayat');
+        }
+    }, [flash.redirect_to_history]);
+
+    const handlePaymentSuccess = () => {
+        setActiveTab('riwayat');
+    };
 
     return (
         <>
@@ -44,7 +57,7 @@ export default function Dashboard({ pelanggan, currentBill, riwayatTagihan, riwa
                         <OverviewTab pelanggan={pelanggan} currentBill={currentBill} onBayarClick={() => setActiveTab('bayar')} />
 
                         {/* Bayar Tagihan Tab */}
-                        <BayarTab currentBill={currentBill} metodePembayaran={metodePembayaran} />
+                        <BayarTab currentBill={currentBill} metodePembayaran={metodePembayaran} onPaymentSuccess={handlePaymentSuccess} />
 
                         {/* Riwayat Tab */}
                         <RiwayatTab riwayatTagihan={riwayatTagihan} riwayatPembayaran={riwayatPembayaran} />

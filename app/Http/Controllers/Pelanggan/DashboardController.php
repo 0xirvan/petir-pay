@@ -156,7 +156,10 @@ class DashboardController extends Controller
             'status' => 'menunggu_konfirmasi'
         ]);
 
-        return back()->with('success', 'Bukti pembayaran berhasil diupload! Pembayaran Anda sedang diverifikasi.');
+        return back()->with([
+            'success' => 'Bukti pembayaran berhasil diupload! Pembayaran Anda sedang diverifikasi.',
+            'redirect_to_history' => true
+        ]);
     }
 
     /**

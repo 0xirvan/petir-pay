@@ -5,12 +5,13 @@ import { MetodePembayaran, TagihanData } from './types';
 interface BayarTabProps {
     currentBill: TagihanData | null;
     metodePembayaran: MetodePembayaran[];
+    onPaymentSuccess?: () => void;
 }
 
-export default function BayarTab({ currentBill, metodePembayaran }: BayarTabProps) {
+export default function BayarTab({ currentBill, metodePembayaran, onPaymentSuccess }: BayarTabProps) {
     return (
         <TabsContent value="bayar" className="space-y-6">
-            <PaymentTab currentBill={currentBill} metodePembayaran={metodePembayaran} />
+            <PaymentTab currentBill={currentBill} metodePembayaran={metodePembayaran} onPaymentSuccess={onPaymentSuccess} />
         </TabsContent>
     );
 }

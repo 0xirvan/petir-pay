@@ -7,9 +7,10 @@ import { MetodePembayaran, TagihanData } from './types';
 interface PaymentTabProps {
     currentBill: TagihanData | null;
     metodePembayaran: MetodePembayaran[];
+    onPaymentSuccess?: () => void;
 }
 
-export default function PaymentTab({ currentBill, metodePembayaran }: PaymentTabProps) {
+export default function PaymentTab({ currentBill, metodePembayaran, onPaymentSuccess }: PaymentTabProps) {
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<MetodePembayaran | null>(null);
 
     if (!currentBill) {
@@ -29,6 +30,7 @@ export default function PaymentTab({ currentBill, metodePembayaran }: PaymentTab
                 metodePembayaran={metodePembayaran}
                 selectedPaymentMethod={selectedPaymentMethod}
                 setSelectedPaymentMethod={setSelectedPaymentMethod}
+                onPaymentSuccess={onPaymentSuccess}
             />
             <BillSummary currentBill={currentBill} selectedPaymentMethod={selectedPaymentMethod} />
         </div>

@@ -10,6 +10,9 @@ class LandingPageController extends Controller
 {
     public function index()
     {
+        if (auth()->guard('pelanggan')->check()) {
+            return redirect()->route('pelanggan.dashboard');
+        }
         return Inertia::render('guest/home');
     }
 

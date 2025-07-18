@@ -11,9 +11,16 @@ interface PaymentFormProps {
     metodePembayaran: MetodePembayaran[];
     selectedPaymentMethod: MetodePembayaran | null;
     setSelectedPaymentMethod: (method: MetodePembayaran | null) => void;
+    onPaymentSuccess?: () => void;
 }
 
-export default function PaymentForm({ currentBill, metodePembayaran, selectedPaymentMethod, setSelectedPaymentMethod }: PaymentFormProps) {
+export default function PaymentForm({
+    currentBill,
+    metodePembayaran,
+    selectedPaymentMethod,
+    setSelectedPaymentMethod,
+    onPaymentSuccess,
+}: PaymentFormProps) {
     const [isProcessingPayment, setIsProcessingPayment] = useState(false);
     const [uploadedProof, setUploadedProof] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -71,6 +78,10 @@ export default function PaymentForm({ currentBill, metodePembayaran, selectedPay
                 setPreviewUrl(null);
                 setSelectedPaymentMethod(null);
                 setIsProcessingPayment(false);
+                // Redirect to history tab after successful upload
+                if (onPaymentSuccess) {
+                    onPaymentSuccess();
+                }
             },
             onError: (errors) => {
                 console.error('Upload failed:', errors);
