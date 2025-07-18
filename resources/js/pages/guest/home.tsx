@@ -2,7 +2,7 @@ import LandingCard from '@/components/landing-card';
 import { Button } from '@/components/ui/button';
 import GuestLayout from '@/layouts/guest-layout';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-import { ArrowRight, Badge, Bell, Clock, CreditCard, Shield, Smartphone, Star, Users, Zap } from 'lucide-react';
+import { ArrowRight, Badge, Bell, Clock, CreditCard, Link, Shield, Smartphone, Star, Users, Zap } from 'lucide-react';
 
 export default function Home() {
     return (
@@ -22,10 +22,12 @@ export default function Home() {
                                 kemudahan Anda.
                             </p>
                             <div className="flex flex-col gap-4 sm:flex-row">
-                                <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
-                                    Mulai Bayar Sekarang
-                                    <ArrowRight className="ml-2 h-5 w-5" />
-                                </Button>
+                                <Link href={route('pelanggan.login')}>
+                                    <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
+                                        Mulai Bayar Sekarang
+                                        <ArrowRight className="ml-2 h-5 w-5" />
+                                    </Button>
+                                </Link>
                                 <div></div>
                             </div>
                             <div className="mt-8 flex items-center space-x-6">
