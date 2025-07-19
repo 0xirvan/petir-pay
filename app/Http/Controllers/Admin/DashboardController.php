@@ -20,6 +20,7 @@ class DashboardController extends Controller
             'total_admin' => User::count(),
             'total_tagihan_belum_bayar' => Tagihan::where('status', 'belum_bayar')->count(),
             'total_tagihan_menunggu_konfirmasi' => Tagihan::where('status', 'menunggu_konfirmasi')->count(),
+            'total_tagihan_lunas' => Tagihan::where('status', 'lunas')->count(),
             'total_pendapatan_bulan_ini' => Pembayaran::whereMonth('tanggal_pembayaran', now()->month)
                 ->whereYear('tanggal_pembayaran', now()->year)
                 ->sum('total_bayar') ?? 0,
