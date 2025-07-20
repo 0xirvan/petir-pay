@@ -95,8 +95,8 @@ export default function Pengaturan({ title, user }: PengaturanProps) {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
-                onStart: () => {},
-                onProgress: (progress: any) => {},
+                onStart: () => { },
+                onProgress: (progress: any) => { },
                 onSuccess: (page: any) => {
                     if (fileInputRef.current) {
                         fileInputRef.current.value = '';
@@ -163,7 +163,7 @@ export default function Pengaturan({ title, user }: PengaturanProps) {
                                     </Avatar>
                                     <Button
                                         size="sm"
-                                        className="absolute -right-2 -bottom-2 h-8 w-8 rounded-full"
+                                        className="absolute -right-2 -bottom-2 h-8 w-8 rounded-full bg-blue-600 hover:bg-blue-700"
                                         onClick={() => fileInputRef.current?.click()}
                                         disabled={uploadingPhoto}
                                     >
@@ -254,7 +254,7 @@ export default function Pengaturan({ title, user }: PengaturanProps) {
                                         {profileForm.errors.email && <p className="mt-1 text-sm text-red-600">{profileForm.errors.email}</p>}
                                     </div>
 
-                                    <Button type="submit" disabled={profileForm.processing}>
+                                    <Button className="bg-blue-600 hover:bg-blue-700" type="submit" disabled={profileForm.processing}>
                                         {profileForm.processing ? 'Menyimpan...' : 'Simpan Perubahan'}
                                     </Button>
                                 </form>
@@ -341,7 +341,7 @@ export default function Pengaturan({ title, user }: PengaturanProps) {
                                         </div>
                                     </div>
 
-                                    <Button type="submit" disabled={passwordForm.processing}>
+                                    <Button className="bg-blue-600 hover:bg-blue-700" type="submit" disabled={passwordForm.processing}>
                                         {passwordForm.processing ? 'Mengubah...' : 'Ubah Password'}
                                     </Button>
                                 </form>
