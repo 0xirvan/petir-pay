@@ -1,5 +1,28 @@
 <?php
 
+/**
+ * Modul: Tagihan
+ * File: app/Models/Tagihan.php
+ * Deskripsi: Model Eloquent untuk tabel tagihan, mengelola data tagihan pelanggan listrik dan relasinya.
+ * Fungsi Utama:
+ *   - penggunaan(): relasi ke Penggunaan (data pemakaian listrik)
+ *   - pelanggan(): relasi ke Pelanggan (data pelanggan)
+ *   - pembayaran(): relasi ke Pembayaran (data pembayaran tagihan)
+ *   - scopeLunas(): filter tagihan dengan status lunas
+ *   - scopeBelumBayar(): filter tagihan dengan status belum bayar
+ *   - scopePeriode($bulan, $tahun): filter tagihan berdasarkan bulan dan tahun
+ *   - getJumlahKwhAttribute(): accessor jumlah kWh (dari jumlah_meter)
+ *   - getTarifPerKwhAttribute(): accessor tarif per kWh dari relasi tarif pelanggan
+ *   - getTotalBiayaAttribute(): accessor total biaya tagihan
+ * Properti:
+ *   - $fillable: daftar kolom yang dapat diisi massal
+ *   - $casts: konversi otomatis tanggal_bayar ke tipe datetime
+ *   - $appends: atribut tambahan (jumlah_kwh, tarif_per_kwh, total_biaya)
+ * Perubahan Terakhir:
+ *   - Penambahan kolom tanggal_bayar pada $fillable dan $casts (mendukung pencatatan tanggal pembayaran)
+ *   - Penyesuaian dokumentasi agar sesuai kode terbaru dan standar teknis aplikasi
+ */
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;

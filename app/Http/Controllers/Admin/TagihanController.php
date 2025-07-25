@@ -9,6 +9,71 @@ use App\Models\Tagihan;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
+
+/**
+ * TagihanController
+ * 
+ * Mengelola proses pembuatan, pencarian, dan pelaporan tagihan pelanggan listrik.
+ * 
+ * Daftar Method:
+ * 
+ * - index(Request $request)
+ *     Menampilkan daftar tagihan dengan fitur pencarian, filter status, dan paginasi.
+ *     Juga menampilkan statistik jumlah tagihan berdasarkan status.
+ *     Parameter: 
+ *         - search (opsional): kata kunci pencarian nama pelanggan/nomor meter
+ *         - status (opsional): filter status tagihan
+ *         - per_page (opsional): jumlah data per halaman
+ *     Return: Inertia view 'admin/kelola-tagihan' beserta data tagihan dan statistik.
+ * 
+ * - store(Request $request)
+ *     Membuat tagihan baru untuk pelanggan pada periode tertentu.
+ *     Melakukan validasi input, pengecekan duplikasi tagihan, dan pembuatan data penggunaan jika diperlukan.
+ *     Parameter: 
+ *         - id_pelanggan, bulan, tahun, jumlah_meter
+ *     Return: Redirect back dengan pesan sukses atau error.
+ * 
+ * - searchPelanggan(Request $request)
+ *     API endpoint untuk mencari data pelanggan berdasarkan nama, nomor meter, atau email.
+ *     Parameter: 
+ *         - search (opsional): kata kunci pencarian
+ *     Return: JSON array data pelanggan beserta tarif.
+ * 
+ * - getPenggunaanBulanSebelumnya(Request $request)
+ *     API endpoint untuk mendapatkan data penggunaan bulan sebelumnya dari pelanggan tertentu.
+ *     Parameter: 
+ *         - id_pelanggan, bulan, tahun
+ *     Return: JSON data meter akhir bulan sebelumnya dan info periode.
+ */
+
+
+/**
+ * Kemungkinan Eksepsi pada TagihanController:
+ * 
+ * 1. Validasi Gagal (ValidationException)
+ *    - Pada method store(), jika input tidak sesuai aturan validasi (misal: id_pelanggan tidak ada, bulan/tahun/jumlah_meter tidak valid), maka akan terjadi ValidationException dan Laravel otomatis mengembalikan response error ke user.
+ * 
+ * 2. Duplikasi Data (Custom Error)
+ *    - Pada method store(), jika tagihan untuk pelanggan dan periode yang sama sudah ada, maka proses akan dibatalkan dan user mendapat pesan error "Tagihan untuk periode ini sudah ada!".
+ * 
+ * 3. Data Tidak Ditemukan (ModelNotFoundException)
+ *    - Pada method searchPelanggan() dan getPenggunaanBulanSebelumnya(), jika data pelanggan atau penggunaan tidak ditemukan, maka hasilnya akan null atau default (tidak terjadi exception fatal, hanya response data kosong).
+ * 
+ * 4. Request Parameter Tidak Lengkap
+ *    - Pada getPenggunaanBulanSebelumnya(), jika parameter id_pelanggan, bulan, atau tahun tidak dikirim, maka response akan mengembalikan meter_akhir = 0 tanpa error fatal.
+ * 
+ * 5. Error Database/Server (QueryException, dll)
+ *    - Jika terjadi masalah pada query database (misal: koneksi gagal, constraint error), Laravel akan melempar QueryException yang bisa ditangani oleh global exception handler.
+ * 
+ * 6. Error pada proses create penggunaan/tagihan
+ *    - Jika terjadi error saat create data (misal: field tidak sesuai, constraint gagal), maka akan terjadi QueryException atau MassAssignmentException.
+ * 
+ * Penanganan:
+ * - Validasi input sudah dilakukan dengan $request->validate().
+ * - Error duplikasi tagihan ditangani dengan pengecekan manual dan pesan error ke user.
+ * - Error lain akan ditangani oleh global exception handler Laravel.
+ */
+
 class TagihanController extends Controller
 {
     public function index(Request $request)
