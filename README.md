@@ -27,4 +27,3 @@ Aplikasi manajemen tagihan dan pembayaran listrik berbasis web.
 4. Copy `.env.example` ke `.env` dan sesuaikan konfigurasi database
 5. Jalankan migrasi database: `php artisan migrate --seed`
 6. Jalankan server lokal: `composer run dev`
-7. Jalankan build frontend: `npm run dev`
