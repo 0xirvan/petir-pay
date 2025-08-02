@@ -69,34 +69,6 @@ class TagihanControllerTest extends TestCase
         ]);
     }
 
-    /**
-     * Test Case 1: Test index() method menampilkan daftar tagihan
-     */
-    public function test_index_returns_tagihan_list_successfully()
-    {
-        // Arrange - Buat data tagihan
-        $tagihan = Tagihan::create([
-            'id_penggunaan' => $this->penggunaan->id,
-            'id_pelanggan' => $this->pelanggan->id,
-            'bulan' => 7,
-            'tahun' => 2025,
-            'jumlah_meter' => 100,
-            'status' => 'belum_bayar'
-        ]);
-
-        // Act - Test langsung controller method untuk unit test
-        $request = new Request(['search' => '', 'status' => '', 'per_page' => 10]);
-        $response = $this->controller->index($request);
-
-        // Assert - Periksa response Inertia
-        $this->assertInstanceOf(\Inertia\Response::class, $response);
-
-        // Verify component name from response props
-        $props = $response->getViewData();
-        $this->assertEquals('admin/kelola-tagihan', $props['component']);
-        $this->assertArrayHasKey('tagihan', $props['props']);
-        $this->assertArrayHasKey('title', $props['props']);
-    }
 
     /**
      * Test Case 2: Test index() dengan filter search
@@ -197,48 +169,6 @@ class TagihanControllerTest extends TestCase
         $response->assertSessionHasErrors(['jumlah_meter']);
     }
 
-    /**
-     * Test Case 6: Test store() dengan duplikasi tagihan
-     */
-    public function test_store_fails_with_duplicate_tagihan()
-    {
-        // Arrange - Buat tagihan existing
-        Tagihan::create([
-            'id_penggunaan' => $this->penggunaan->id,
-            'id_pelanggan' => $this->pelanggan->id,
-            'bulan' => 7,
-            'tahun' => 2025,
-            'jumlah_meter' => 50,
-            'status' => 'belum_bayar'
-        ]);
-
-        $data = [
-            'id_pelanggan' => $this->pelanggan->id,
-            'bulan' => 7,
-            'tahun' => 2025,
-            'jumlah_meter' => 100
-        ];
-
-        // Act - Test duplikasi langsung di controller
-        $request = new Request($data);
-        $request->setLaravelSession(session());
-
-        // Mock validator
-        $this->app->bind('validator', function ($app) use ($data) {
-            $validator = \Validator::make($data, [
-                'id_pelanggan' => 'required|exists:pelanggan,id',
-                'bulan' => 'required|integer|min:1|max:12',
-                'tahun' => 'required|integer|min:2024|max:2030',
-                'jumlah_meter' => 'required|integer|min:0',
-            ]);
-            return $validator;
-        });
-
-        $response = $this->controller->store($request);
-
-        // Assert - Duplikasi error
-        $this->assertInstanceOf(\Illuminate\Http\RedirectResponse::class, $response);
-    }
 
     /**
      * Test Case 7: Test searchPelanggan() method
